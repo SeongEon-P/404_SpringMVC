@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.zerock.springex.dto.PageRequestDTO;
 import org.zerock.springex.dto.TodoDTO;
 import org.zerock.springex.service.TodoService;
 
 import javax.validation.Valid;
 
-//깃허브 테스트
+// 깃 커밋 테스트 , 주석입니다.
 
 @Controller
 @RequestMapping("/todo")
@@ -23,11 +24,40 @@ import javax.validation.Valid;
 public class TodoController {
   private final TodoService todoService;
 
+  // 기존, 단순 전체 갯수 출력 -> 페이징 처리해서, 화면에 전달하는 코드 수정하기.
+
+  // 기존 코드
+//  @RequestMapping("/list")
+//  public void list(Model model) {
+//    log.info("todo list......");
+//    model.addAttribute("dtoList",todoService.getAll());
+//  }
+
+  // 페이징 처리된 목록 출력 코드
   @RequestMapping("/list")
-  public void list(Model model) {
-    log.info("todo list......");
-    model.addAttribute("dtoList",todoService.getAll());
+  // 화면에서, 전달 된 파라미터를 PageRequestDTO 가 자동 변환 해준다.
+  // page, size 가, 1 또는 최소, 최대, 양수등 이 아니면, 오류가 발생하고,
+  // 기본 페이지로 이동, page=1&size=10 , 이동 할 예정.
+  public void list(@Valid PageRequestDTO pageRequestDTO, BindingResult bindingResult, Model model) {
+    log.info(pageRequestDTO);
+    // 에러가 존재한다면, 출력후, 리다이렉트
+    if(bindingResult.hasErrors()) {
+      pageRequestDTO = PageRequestDTO.builder().build();
+    }
+    // responseDTO : 키 안에는, 페이징에 관련된 재료 준비물들이 다 들어 있다.
+    // private int page;
+    //  private int size;
+    //  private int total;
+    //  private int start;
+    //  private int end;
+    //  private boolean prev;
+    //  private boolean next;
+    //  private List<E> dtoList;
+    // 화면에서는 -> responseDTO.page , 페이지 번호 사용가능.
+    // 화면 : list.jsp , 만들어서 사용하기.
+    model.addAttribute("responseDTO",todoService.getList(pageRequestDTO));
   }
+
   @GetMapping({"/read","/modify"})
   public void read(Long tno, Model model) {
     model.addAttribute("dto",todoService.getOne(tno));
@@ -41,21 +71,21 @@ public class TodoController {
     return "redirect:/todo/list";
   }
 
-    @PostMapping("/modify")
-    public String modify(@Valid TodoDTO dto,
-                         BindingResult bindingResult,
-                         RedirectAttributes redirectAttributes) {
-      if(bindingResult.hasErrors()){
-        log.info("has errors.......");
-        redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
-        redirectAttributes.addAttribute("tno",dto.getTno());
-        return "redirect:/todo/modify";
-      }
-      todoService.modify(dto);
-      return "redirect:/todo/list";
+  @PostMapping("/modify")
+  public String modify(@Valid TodoDTO dto,
+                       BindingResult bindingResult,
+                       RedirectAttributes redirectAttributes) {
+    if(bindingResult.hasErrors()){
+      log.info("has errors.......");
+      redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+      redirectAttributes.addAttribute("tno",dto.getTno());
+      return "redirect:/todo/modify";
     }
+    todoService.modify(dto);
+    return "redirect:/todo/list";
+  }
 
-//  @RequestMapping(value = "/register", method= RequestMethod.GET)
+  //  @RequestMapping(value = "/register", method= RequestMethod.GET)
   @GetMapping("/register")
   public void register(){
     log.info("todo register.......");
