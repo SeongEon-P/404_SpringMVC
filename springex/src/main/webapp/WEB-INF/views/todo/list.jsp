@@ -83,25 +83,27 @@
                         <%--                        페이징 부트스트랩의 컴포넌트 요소 넣기.--%>
                         <div>
                             <div class="center-float">
-<%--                                이전 버튼 표시--%>
-                                <c:if test="${responseDTO.prev}">
-                                    <li class="page-item">
-                                        <a class="page-link">Previous</a>
-                                    </li>
-                                </c:if>
-
                                 <ul class="pagination flex-wrap">
+                                    <%--이전 버튼 표시--%>
+                                    <c:if test="${responseDTO.prev}">
+                                        <li class="page-item">
+                                            <a class="page-link">이전</a>
+                                        </li>
+                                    </c:if>
+
                                     <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}" var="num">
                                         <li class="page-item"><a class="page-link" href="#">${num}</a></li>
                                     </c:forEach>
+
+                                    <%--다음 버튼 표시--%>
+                                    <c:if test="${responseDTO.next}">
+                                        <li class="page-item">
+                                            <a class="page-link">다음</a>
+                                        </li>
+                                    </c:if>
                                 </ul>
 
-<%--                                다음 버튼 표시--%>
-                                 <c:if test="${responseDTO.next}">
-                                     <li class="page-item">
-                                        <a class="page-link">Next</a>
-                                     </li>
-                                  </c:if>
+
                             </div>
                         </div>
 
