@@ -1,0 +1,207 @@
+-- 10-1 테이블 복사하기, 제약조건은 복사되지 않음
+CREATE TABLE dept_temp
+AS SELECT * FROM dept;
+
+--INSERT 문 : 테이블에 데이터를 추가하는 SQL문
+INSERT INTO 테이블 이름(열이름, 열이름, 열이름) VALUES (데이터, 데이터, 데이터);
+
+-- 10-3 : DEPT_TEMP 테이블에 데이터 추가하기
+INSERT INTO dept_temp(deptno, dname, loc)
+            VALUES (50, 'DATABASE', 'SEOUL');
+SELECT * FROM dept_temp;
+
+-- INSERT문 사용시의 주의점
+-- 1.열의 개수가 맞지 않을 때
+INSERT INTO dept_temp(deptno, dname, loc)
+            VALUES (60, 'NETWORK');
+
+-- 2.지정한 열보다 데이터가 많을 때
+INSERT INTO dept_temp(deptno, dname, loc)
+            VALUES (60,'NETWORK', 'BUSAN', 'WRONG');
+
+-- 3.데이터 타입이 서로 다를 때
+INSERT INTO dept_temp(deptno, dname, loc)
+            VALUES ('WRONG', 'BUSAN','NETWORK');
+ 
+-- 4.데이터 길이가 맞지 않을 때(데이터 타입이 NUMBER(2,0)라서 99까지 만 됨)
+INSERT INTO dept_temp(deptno, dname, loc)
+            VALUES (100, 'BUSAN','NETWORK');
+            
+-- 10-4 : INSERT문에 열 지정 없이 데이터 추가하기
+-- SQL Developer 처럼 같은 테스트 가능한 응용프로그램에서 실행하는 방식
+-- 실제 서버에서는 모든 열을 적는것이 권장됩니다.
+INSERT INTO dept_temp
+            VALUES(60, 'NETWORK', 'BUSAN');
+SELECT * FROM dept_temp;
+
+-- 10-5 : NULL을 지정하여 입력하기
+-- NULL의 명시적 입력
+INSERT INTO dept_temp (deptno, dname, loc)
+            VALUES(70, 'WEB', NULL);
+SELECT * FROM dept_temp;
+
+-- 이렇게는 잘 안함
+INSERT INTO dept_temp (deptno, dname, loc)
+            VALUES(80, 'MOBILE', '');
+SELECT * FROM dept_temp;
+
+-- NULL의 암시적 입력
+INSERT INTO dept_temp (deptno, loc)
+            VALUES(90, 'INCHEON');
+SELECT * FROM dept_temp;
+
+
+-- 10-8 : 테이블의 데이터를 제외한 테이블 구조만 복사하기
+CREATE TABLE emp_temp
+AS SELECT * FROM emp WHERE 1<>1; --1과 1은 다르다 라는 뜻, FALSE가 나옴, 모든행이 안나옴 !=과 같은 의미, 
+SELECT * FROM emp_temp; --구조만 복사가됨
+
+-- 10-9 : INSERT 문으로 날짜 데이터 입력하기(날짜 사이에 / 또는 - 입력)
+INSERT INTO emp_temp (empno, ename, job, mgr, hiredate, sal, comm, deptno)
+            VALUES(9999, '홍길동', 'PRESIDENT', NULL, '2001/01/01', 5000, 1000, 10);
+
+INSERT INTO emp_temp (empno, ename, job, mgr, hiredate, sal, comm, deptno)
+            VALUES(1111, '성춘향', 'MANAGER', 9999, '2001-01-05', 4000, NULL, 20);
+
+SELECT * FROM emp_temp;
+
+-- 10-11 : 날짜 데이터에서 에러가 나는 경우
+INSERT INTO emp_temp (empno, ename, job, mgr, hiredate, sal, comm, deptno)
+            VALUES(2111, '이순신', 'MANAGER', 9999, '07/01/2001', 4000, NULL, 20);
+
+-- 서버에서 사용할 때는 TO_DATE 써줘야함
+INSERT INTO emp_temp (empno, ename, job, mgr, hiredate, sal, comm, deptno)
+            VALUES(2111, '이순신', 'MANAGER', 9999, TO_DATE('07/01/2001','DD/MM/YYYY'), 4000, NULL, 20);
+SELECT * FROM emp_temp;
+
+-- 10-13 : SYSDATE를 사용하여 날짜 데이터 입력하기
+INSERT INTO emp_temp (empno, ename, job, mgr, hiredate, sal, comm, deptno)
+            VALUES(3111, '심청이', 'MANAGER', 9999, SYSDATE, 4000, NULL, 30);
+SELECT * FROM emp_temp;
+
+
+
+-- 10-14 : 서브쿼리로 여러 데이터 추가하기
+INSERT INTO emp_temp (empno, ename, job, mgr, hiredate, sal, comm, deptno)
+            SELECT E.empno, E.ename, E.job, E.mgr, E.hiredate, E.sal, E.comm, E.deptno
+            FROM emp E
+            INNER JOIN salgrade S ON E.sal BETWEEN S.losal AND S.hisal
+            WHERE S.grade = 1;
+SELECT * FROM emp_temp;
+
+-- INSERT INTO emp_temp (empno, enmae) VALUES ('7777','HOUR');
+-- INSERT INTO 테이블 이름 (컬럼 이름) VALUES( );
+
+-- UPDATE : 테이블 데이터 수정하기
+-- 10-15 : DEPT 테이블을 복사해서 DEPT_TEMP2 테이블 만들기
+CREATE TABLE dept_temp2
+    AS SELECT * FROM dept;
+-- UPDATE 테이블이름 SET 열이름 = 내용작성 WHERE 열이름 = 조건값
+UPDATE dept_temp2
+    SET loc = 'SEOUL';
+SELECT * FROM dept_temp2;
+ROLLBACK; --실행취소
+
+-- 10-18 : 테이블 데이터 중 일부분만 수정하기
+UPDATE dept_temp2
+    SET dname = 'DATABASE',
+         loc = 'SEOUL'
+         WHERE deptno = 40;
+SELECT * FROM dept_temp2 WHERE deptno = 40; -- 이렇게 확인 해보고 하면 실수가 안남.
+
+-- 10-19 : 서브쿼리로 데이터 일부분 수정하기
+UPDATE dept_temp2
+    SET (dname, loc) = (SELECT dname, loc FROM dept
+    WHERE deptno = 40)
+    WHERE dept =40;
+SELECT * FROM dept_temp2;
+
+-- 10-21 : UPDATE 문의 WHERE절에 서브쿼리 사용하기
+UPDATE dept_temp2
+SET loc = 'SEOUL'
+WHERE deptno = (SELECT deptno FROM dept_temp2 WHERE dname='OPERATIONS');
+SELECT*FROM dept_temp2;
+
+-- 10-22 : DELETE, 테이블 데이터 삭제
+CREATE TABLE emp_temp2
+AS SELECT * FROM emp;
+SELECT *FROM emp_temp2;
+--DELETE FROM 테이블이름 ; 테이블의 모든 행을 삭제
+
+-- 10-23 : WHERE 절을 사용해서 데이터 일부분만 삭제하기
+DELETE FROM emp_temp2
+    WHERE job = 'MANAGER';
+SELECT * FROM emp_temp2 WHERE job = 'MANAGER'; --DELETE 하기 전에, SELECT에서 확인하고 삭제하기
+
+-- 10-24 : WHERE절에 서브쿼리를 사용하여 데이터 일부만 삭제하기
+DELETE FROM emp_temp2
+        WHERE empno IN (SELECT E.empno FROM emp_temp2 E
+            INNER JOIN salgrade S ON E.sal BETWEEN S.losal AND S.hisal
+            AND S.grade = 3
+            AND deptno = 30);
+            
+            SELECT * FROM emp_temp2;
+
+-- 287~289p, 10장 연습문제, Q1~5
+
+CREATE TABLE chap10hw_emp AS SELECT * FROM emp;
+CREATE TABLE chap10hw_dept AS SELECT * FROM dept;
+CREATE TABLE chap10hw_salgrade AS SELECT * FROM salgrade;
+
+-- Q1 : 오른쪽과 같이 CHAP10HW_DEPT 테이블에 50,60,70,80번 부서를 등록하는 SQL문을 작성하세요
+INSERT INTO chap10hw_dept (deptno, dname, loc) VALUES (50,'ORACLE', 'BUSAN');
+
+INSERT INTO chap10hw_dept VALUES (60,'SQL', 'ILSAN');
+
+INSERT INTO chap10hw_dept VALUES (70,'SELECT', 'INCHEON');
+
+INSERT INTO chap10hw_dept VALUES (80,'DML', 'BUNDANG');
+
+SELECT * FROM chap10hw_dept;
+
+
+-- Q2 : 다음과 같이 CHAP10HW_EMP 테이블에 다음 8명의 사원 정보를 등록하는 SQL문을 작성하세요.
+INSERT INTO chap10hw_emp (empno, ename, job, mgr, hiredate, sal, comm, deptno) VALUES (7201, 'TEST_USER1', 'MANAGER', 7788, TO_DATE('2016/01/02','YYYY-MM-DD'), 4500,'',50);
+INSERT INTO chap10hw_emp VALUES (7202, 'TEST_USER2', 'CLERK', 7201, TO_DATE('2016/02/21','YYYY-MM-DD'), 1800,'',50);
+INSERT INTO chap10hw_emp VALUES (7203, 'TEST_USER3', 'ANALYST', 7201, TO_DATE('2016/04/11','YYYY-MM-DD'), 3400,'',60);
+INSERT INTO chap10hw_emp VALUES (7204, 'TEST_USER4', 'SALESMAN', 7201, TO_DATE('2016/05/31','YYYY-MM-DD'), 2700,300,60);
+INSERT INTO chap10hw_emp VALUES (7205, 'TEST_USER5', 'CLERK', 7201, TO_DATE('2016/07/20','YYYY-MM-DD'), 2600,'',70);
+INSERT INTO chap10hw_emp VALUES (7206, 'TEST_USER6', 'CLERK', 7201, TO_DATE('2016/09/08','YYYY-MM-DD'), 2600,'',70);
+INSERT INTO chap10hw_emp VALUES (7207, 'TEST_USER7', 'LECTURER', 7201, TO_DATE('2016/10/28','YYYY-MM-DD'), 2300,'',80);
+INSERT INTO chap10hw_emp VALUES (7208, 'TEST_USER8', 'STUDENT', 7201, TO_DATE('2018/03/09','YYYY-MM-DD'), 1200,'',80);
+
+SELECT * FROM chap10hw_emp;
+
+-- Q3 : CHAP10HW_EMP에 속한 사원 중 50번 부서에 근무하는 사원들의 평균 급여보다 많은 급여를 받고 있는 사원들을 70번 부서로 옮기는 SQL문을 작성하세요
+UPDATE chap10hw_emp
+ SET deptno = 70
+ WHERE sal > (SELECT AVG(sal) FROM chap10hw_emp WHERE deptno = 50);
+SELECT * FROM chap10hw_emp WHERE sal > (SELECT AVG(sal) FROM chap10hw_emp WHERE deptno = 50); --확인용
+SELECT * FROM chap10hw_emp;
+
+-- Q4 : chap10hw_emp에 속한 사원 중, 60번 부서의 사원 중에 입사일이 가장 빠른 사원보다 늦게 입사한 사원의 급여를 10& 인상하고 80번 부서로 옮기는 SQL문을 작성하세요
+UPDATE chap10hw_emp
+ SET sal = sal*1.1,
+ deptno = 80
+     
+ WHERE hiredate > (SELECT MIN(hiredate) FROM chap10hw_emp WHERE deptno = 60);
+
+SELECT * FROM chap10hw_emp;
+
+
+-- Q5 :  chap10hw_emp에 속한 사원 중, 급여 등급이 5인 사원을 삭제하는 SQL문을 작성하세요
+
+DELETE FROM chap10hw_emp
+        WHERE empno IN (SELECT empno FROM chap10hw_emp E
+            INNER JOIN chap10hw_salgrade S ON E.sal BETWEEN S.losal AND S.hisal
+            WHERE S.grade = 5);
+            SELECT * FROM chap10hw_emp;
+
+CREATE TABLE chap10hw_emp2 AS SELECT * FROM emp WHERE 1!=1;
+ SELECT * FROM chap10hw_emp2;
+
+
+
+
+
+ 

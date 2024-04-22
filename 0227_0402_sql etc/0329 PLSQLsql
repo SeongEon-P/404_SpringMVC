@@ -1,0 +1,354 @@
+--DECLARE
+--    변수, 상수, 커서 선언
+--
+--BEGIN   
+--    조건문, 반복문, SELECT문 등의 실행문
+--
+--EXCEPTION
+--    예외처리부분
+--    
+--END;
+--/
+-- / : PLSQL을 끝내는 종료 기호, 한 줄에 /만 존재해야하며, 다른 코드와 연속해서 사용할 수 없음.
+
+-- 16-1 : Hello PL/SQL 출력하기, 세션 관련 설정으로 세션 접속시에 실행해야 하며, 접속을 해제하면 초기화됨.
+-- 실행결과를 화면에 출력해주는 설정
+SET SERVEROUTPUT ON;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('HELLO, PL/SQL!');
+END;
+/
+
+-- 변수 선언 하기
+-- 변수이름 자료형 := 대입값;
+
+-- 16-4 : 변수 선언 및 변수 값 출력하기
+DECLARE
+    v_empno NUMBER(4) := 7788;
+    v_ename VARCHAR(10);
+BEGIN
+    v_ename := 'SCOTT';
+    DBMS_OUTPUT.PUT_LINE('V_EMPNO : ' || v_empno);
+    DBMS_OUTPUT.PUT_LINE('V_ENAME : ' || v_ename);
+END;
+/
+
+
+-- 상수, DEFAULT 선언
+DECLARE
+    v_empno NUMBER(4) := 7788;
+    v_ename VARCHAR(10);
+    -- 상수 선언하기
+    v_job CONSTANT VARCHAR2(9) := 'MANAGER'; --자료형 앞에 CONSTANT 붙이면 상수형이 됨
+    -- 기본값 설정하기
+    v_mgr NUMBER(4) DEFAULT 7788;
+    -- NOT NULL 설정하기
+--    v_sal NUMBER NOT NULL := 2500;
+--    v_sal NUMBER NOT NULL DEFAULT 3000;
+      v_sal NUMBER NOT NULL; -- NOT NULL로 정의된 변수는, 초기값이 무조건 있어야함. 이거처럼 그냥 NOT NULL하고, BEGIN에서 값 넣으면 오류남
+BEGIN
+    v_sal := 3500;
+    v_ename := 'SCOTT';
+    --v_job := 'SALESMAN';  -- 상수값은 변경 안됨
+    v_mgr := 9999;
+    DBMS_OUTPUT.PUT_LINE('V_EMPNO : ' || v_empno);
+    DBMS_OUTPUT.PUT_LINE('V_ENAME : ' || v_ename);
+    DBMS_OUTPUT.PUT_LINE('V_JOB : ' || v_job);
+    DBMS_OUTPUT.PUT_LINE('V_MGR : ' || v_mgr);
+    DBMS_OUTPUT.PUT_LINE('V_SAL : ' || v_sal);
+END;
+/
+
+-- 참조 자료형 : 특정 테이블의 열 자료형을 참조하여 사용하는 자료형
+-- 변수 이름 테이블이름.열이름%TYPE (열 자료형 참조)
+DECLARE
+    v_deptno DEPT.DEPTNO%TYPE := 50;
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('V_DEPTNO : ' || v_deptno);
+END;
+/
+-- 변수 이름 테이블이름%ROWTYPE (모든 열의 구조를 참조)
+DECLARE
+    v_dept_row DEPT%ROWTYPE;
+BEGIN
+    SELECT deptno, dname, loc
+        INTO v_dept_row
+    FROM dept WHERE deptno = 40;
+    DBMS_OUTPUT.PUT_LINE('DEPTNO : ' || v_dept_row.deptno);
+    DBMS_OUTPUT.PUT_LINE('DNAME : ' || v_dept_row.dname);
+    DBMS_OUTPUT.PUT_LINE('LOC : ' || v_dept_row.loc);
+END;
+/
+
+-- 16-14 : 입력한 점수가 어느 학점인지 출력하기(IF-THEN-ELSIF 사용)
+-- if 조건문
+DECLARE
+    v_score NUMBER := 87;
+BEGIN
+    IF v_score >= 90 THEN
+        DBMS_OUTPUT.PUT_LINE('A학점');
+    ELSIF v_score >= 80 THEN
+        DBMS_OUTPUT.PUT_LINE('B학점');
+    ELSIF v_score >= 70 THEN
+        DBMS_OUTPUT.PUT_LINE('C학점');
+    ELSIF v_score >= 60 THEN
+        DBMS_OUTPUT.PUT_LINE('D학점');
+    ELSE 
+        DBMS_OUTPUT.PUT_LINE('F학점');
+    END IF; --이거 반드시 해야함
+END;
+/
+
+-- CASE 조건문
+DECLARE
+    v_score NUMBER := 87;
+BEGIN
+    CASE
+    WHEN v_score >= 90 THEN
+        DBMS_OUTPUT.PUT_LINE('A학점');
+    WHEN v_score >= 80 THEN
+        DBMS_OUTPUT.PUT_LINE('B학점');
+    WHEN v_score >= 70 THEN
+        DBMS_OUTPUT.PUT_LINE('C학점');
+    WHEN v_score >= 60 THEN
+        DBMS_OUTPUT.PUT_LINE('D학점');
+    ELSE 
+        DBMS_OUTPUT.PUT_LINE('F학점');
+    END CASE; --이거 반드시 해야함
+END;
+/
+
+-- 16-17 : 기본 LOOP문
+DECLARE
+    v_num NUMBER := 0;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE('현재 V_NUM : ' || v_num);
+        v_num := v_num + 1;
+        -- EXIT의 조건이 TRUE라면 반복문 종료
+        EXIT WHEN v_num > 4;
+    END LOOP;
+END;
+/
+
+DECLARE
+    v_num NUMBER := 0;
+BEGIN
+    LOOP
+        DBMS_OUTPUT.PUT_LINE('현재 V_NUM : ' || v_num);
+        v_num := v_num + 1;
+        -- EXIT의 조건이 TRUE라면 반복문 종료
+        IF v_num > 4 THEN
+        EXIT;
+        END IF;
+    END LOOP;
+END;
+/
+
+-- 16-18 : WHILE LOOP 사용하기
+DECLARE
+    v_num NUMBER := 0;
+BEGIN
+    WHILE v_num < 5 LOOP
+     DBMS_OUTPUT.PUT_LINE('현재 V_NUM : ' || v_num);
+     v_num := v_num + 1;
+     END LOOP;
+    END;
+    /
+    
+
+ -- 16-19 : FOR 사용하기
+BEGIN
+    FOR i IN 0..4 LOOP
+     DBMS_OUTPUT.PUT_LINE('현재 i의 값 : ' || i);
+     END LOOP;
+    END;
+/   
+
+BEGIN
+    FOR i IN REVERSE 0..4 LOOP
+     DBMS_OUTPUT.PUT_LINE('현재 i의 값 : ' || i);
+     END LOOP;
+    END;
+/   
+
+-- continuew, continue when
+BEGIN
+    FOR i IN 0..4 LOOP
+     CONTINUE WHEN MOD(i,2)=1; --홀수일때만 실행하게 하는 것
+     DBMS_OUTPUT.PUT_LINE('현재 i의 값 : ' || i);
+     END LOOP;
+    END;
+/   
+
+BEGIN
+    FOR i IN 0..4 LOOP
+     IF MOD(i,2)=1 THEN
+        CONTINUE;
+        END IF;
+     DBMS_OUTPUT.PUT_LINE('현재 i의 값 : ' || i);
+     END LOOP;
+    END;
+/   
+
+
+-- 444p, 연습문제 Q1~2
+-- Q1. 숫자 1부터 10까지의 숫자 중 오른쪽과 같이 홀수만 출력하는 PL/SQL 프로그램을 작성해보세요
+BEGIN
+    FOR i IN 1..10 LOOP
+     CONTINUE WHEN MOD(i,2)=0; 
+     DBMS_OUTPUT.PUT_LINE('현재 i의 값 : ' || i);
+     END LOOP;
+    END;
+/   
+
+-- Q2.DEPT 테이블의 DEPTNO와 자료형이 같은 변수 V_DEPTNO를 선언합니다. 그리고 V_DEPTNO 변수 값에
+-- 10, 20, 30, 40을 대입했을 때 다음과 같이 부서 이름을 출력하는 프로그램을 작성해보세요.
+-- 단, 부서 번호가 10, 20, 30, 40이 아니면 N/A로 출력합니다.
+DECLARE
+    v_deptno DEPT.DEPTNO%TYPE := 50;
+    v_dname DEPT.DNAME%TYPE; -- 부서 이름을 저장하기 위한 변수
+BEGIN
+    BEGIN
+        SELECT dname INTO v_dname FROM DEPT WHERE deptno = v_deptno;
+
+        CASE
+            WHEN v_deptno = 10 THEN DBMS_OUTPUT.PUT_LINE('DNAME : ' || v_dname);
+            WHEN v_deptno = 20 THEN DBMS_OUTPUT.PUT_LINE('DNAME : ' || v_dname);
+            WHEN v_deptno = 30 THEN DBMS_OUTPUT.PUT_LINE('DNAME : ' || v_dname);
+            WHEN v_deptno = 40 THEN DBMS_OUTPUT.PUT_LINE('DNAME : ' || v_dname);
+           END CASE;
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('DNAME : N/A');
+    END;
+END;
+/
+
+--gpt 풀이
+DECLARE
+    v_deptno DEPT.DEPTNO%TYPE:= 50;
+    v_dname DEPT.DNAME%TYPE;
+ BEGIN
+    BEGIN
+        SELECT dname INTO v_dname FROM dept WHERE deptno = v_deptno;
+        DBMS_OUTPUT.PUT_LINE('DNAME : ' || v_dname);
+    EXCEPTION
+        WHEN NO_DATA_FOUND THEN
+            DBMS_OUTPUT.PUT_LINE('DNAME : N/A');
+    END;
+END;
+/
+
+
+
+-- 선생님 풀이
+-- 1)
+DECLARE
+    v_deptno DEPT.DEPTNO%TYPE := 10;
+BEGIN
+    CASE v_deptno
+            WHEN v_deptno = 10 THEN DBMS_OUTPUT.PUT_LINE('DNAME : ACCOUNTING');
+            WHEN v_deptno = 20 THEN DBMS_OUTPUT.PUT_LINE('DNAME : RESEARCH');
+            WHEN v_deptno = 30 THEN DBMS_OUTPUT.PUT_LINE('DNAME : SALES');
+            WHEN v_deptno = 40 THEN DBMS_OUTPUT.PUT_LINE('DNAME : OPERATIONS');
+            ELSE DBMS_OUTPUT.PUT_LINE('DNAME : N/A');
+           END CASE;
+END;
+/
+
+--2)
+DECLARE
+    v_deptno dept.DEPTNO%TYPE := 50;
+    v_dname_row dept%ROWTYPE; -- 부서 이름을 저장하기 위한 변수
+BEGIN
+    SELECT * INTO v_dept_row FROM dept WHERE deptno = v_deptno;
+    DBMS_OUTPUT.PUT_LINE('DNAME : ' || v_dept_row.dname);
+    DBMS_OUTPUT.PUT_LINE('LOC : ' || v_dept_row.loc);
+       EXCEPTION
+        WHEN OTHERS THEN --'OTHERES'들어가면 어떤 오류라도 처리가능.
+            DBMS_OUTPUT.PUT_LINE('DNAME : N/A');
+            DBMS_OUTPUT.PUT_LINE('LOC : N/A');
+END;
+/
+
+-- 윤년 확인하기
+-- 400으로 나누어떨어지면 윤년입니다.
+-- 4로 나누어 떨어지면서 100으로 나누어 떨어지지 않으면 윤년입니다.
+-- year 변수를 사용하여 윤년이라면
+-- year 변수를 사용하여 윤년이라면 '윤년 입니다.' 윤년이 아니라면 '윤년이 아닙니다.' PL/SQL문을 작성하세요
+DECLARE
+    year NUMBER(4) := &Enter_Year;
+    result VARCHAR2(50);
+BEGIN
+    IF MOD(year,400)=0 OR (MOD(year,100)!=0 AND MOD(year,4)=0) THEN -- OR,AND랑 !=를 활용하자
+    result:=('윤년 입니다');
+    ELSE result:=('윤년이 아닙니다');
+    END IF; 
+    DBMS_OUTPUT.PUT_LINE(year || '년은 ' || result);
+END;
+/
+
+-- &설명 : 직접 값 입력하기. 팝업창이 뜸
+-- 랜덤 값 출력하기 : DBMS_RANDOM.VALUE(범위 시작, 종료)
+-- 가위바위보 게임 만들기
+-- 0:가위, 1:바위, 2:보
+
+DECLARE
+    user_choice NUMBER(1);
+    computer_choice NUMBER(1);
+BEGIN
+    user_choice := &가위바위보_Enter_0_to_2;
+        IF NOT (user_choice IN (0, 1, 2)) THEN
+        DBMS_OUTPUT.PUT_LINE('0~2사이 정수를 입력하세요');
+        RETURN; -- 프로그램 종료
+    END IF;
+    
+    computer_choice := DBMS_RANDOM.VALUE(0,2); --TRUNC 써서 (0,3)해도 되지만, 위에서 NUMBER(1)이라고 했기때문에 소숫점 아래 숫자는 다 지워진다.
+    CASE computer_choice
+        WHEN 0 THEN
+        DBMS_OUTPUT.PUT_LINE('컴퓨터의 선택: 가위');
+        WHEN 1 THEN
+        DBMS_OUTPUT.PUT_LINE('컴퓨터의 선택: 바위');
+        WHEN 2 THEN
+        DBMS_OUTPUT.PUT_LINE('컴퓨터의 선택: 보');
+        END CASE;
+          
+        IF (user_choice = computer_choice) THEN
+        DBMS_OUTPUT.PUT_LINE('비겼습니다.');
+        ELSIF (user_choice=0 AND computer_choice=2) OR
+              (user_choice=1 AND computer_choice=0) OR
+              (user_choice=2 AND computer_choice=1) THEN
+        DBMS_OUTPUT.PUT_LINE('당신이 이겼습니다.');
+        ELSE DBMS_OUTPUT.PUT_LINE('당신이 졌습니다.');
+        END IF; 
+         
+        EXCEPTION
+        WHEN OTHERS THEN
+        DBMS_OUTPUT.PUT_LINE('0~2사이 정수를 입력하세요');
+        END;
+/
+
+DECLARE
+    player NUMBER(1) := &player;
+    computer NUMBER(1) := DBMS_RANDOM.VALUE(0,2);
+    result VARCHAR2(100);
+    TYPE srplist IS VARRAY(3) OF VARCHAR2(10);
+    srp srplist := srplist('가위','바위','보');
+BEGIN
+    DBMS_OUTPUT.PUT_LINE(computer);
+    result := player-computer;
+    IF result = '0' THEN
+        result := '비겼습니다.';
+    ELSIF result = '-2' OR result = '1' THEN
+        result := '이겼습니다.';
+    ELSE 
+        result := '졌습니다.';
+    END IF;
+    DBMS_OUTPUT.PUT_LINE(srp(player+1)||':'||srp(computer+1) || result);
+END;
+/
+
+    
+    
+    

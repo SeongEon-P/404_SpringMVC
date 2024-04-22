@@ -1,0 +1,235 @@
+-- 1. 패스워드가 1234인 guest01 사용자를 생성하시오
+CREATE USER guest01
+IDENTIFIED BY 1234;
+
+-- 2. 생성한 guest01 사용자에 데이터베이스에 접속, 리소스 사용, 뷰 생성, 동의어 생성이 가능한 권한을 부여하시오.
+GRANT CONNECT, RESOURCE, CREATE VIEW, CREATE SYNONYM TO guest01;
+
+-- ★ guest01 사용자로 접속하여 다음의 그림과 같이 학과(dept), 학생(student), 교수(professor) 테이블과 데이터를 참고하여 제시된 문제에 답하시오.
+-- 3. dept(학과) 테이블을 다음과 같이 생성하기 위한 쿼리를 작성하라.
+-- deptno 고정길이 문자 3으로 지정하고, dname 가변길이 문자 20으로 설정한다.
+CREATE TABLE dept_table(
+    deptno CHAR(3),
+    dname VARCHAR2(20)   
+    );
+
+-- 4. dept(학과) 테이블에 deptno 컬럼에 기본키 제약조건을 설정하라.
+ALTER TABLE dept_table
+        ADD CONSTRAINT deptno_pk PRIMARY KEY (deptno);
+
+-- 5. 학생(student) 테이블을 생성하기 위해 다음과 같은 쿼리를 작성하시오
+-- studno 숫자로 설정하고, 기본키 제약조건 설정
+-- name은 데이터 타입 가변길이 문자열 10, not null과 unique 제약 조건을 설정
+-- deptno는 고정길이 문자열 3자, 학과(deptno)를 참조하도록 foregin key를 설정하라
+-- grade 필드는 숫자 1자로 설정하고 값이 1~4의 값만 들어가도록 check 제약조건을 설정하라.
+-- profno 필드는 숫자로  설정하라.
+    CREATE TABLE student_table(
+    studno NUMBER PRIMARY KEY, 
+    name VARCHAR2(10) CONSTRAINT guest_name_nn_unique NOT NULL UNIQUE,
+    deptno CHAR(3) CONSTRAINT fk_deptno_to_student_table REFERENCES dept_table(deptno),
+    grade VARCHAR2(1) CONSTRAINT grade_chk CHECK (grade IN ('1', '2', '3', '4')),  
+    profno NUMBER
+     );
+    
+-- 6. 학과(dept), 학생(student), 교수(professor) 테이블에 데이터를 입력하는 쿼리를 작성하시오
+ALTER USER guest01 QUOTA 100M ON USERS;
+
+INSERT INTO dept_table VALUES (101,'경영학과');
+INSERT INTO dept_table VALUES (102,'컴퓨터공학과');
+INSERT INTO dept_table VALUES (103,'영문학과');
+
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (101, '김기현', '1', 101, 1001);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (102, '김민영', '2', 101, 1003);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (103, '김정환', '3', 101, 1001);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (104, '김준태', '4', 101, 1003);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (105, '김지용', '1', 102, 1002);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (106, '김진', '2', 102, NULL);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (107, '김찬권', '3', 102, 1002);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (108, '김옥규', '1', 103, 1004);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (109, '박원영', '2', 103, 1006);
+INSERT INTO student_table (studno, name, grade, deptno, profno) VALUES (110, '박의종', '3', 103, NULL);
+
+CREATE TABLE professor_table(
+profno NUMBER PRIMARY KEY, 
+name VARCHAR2(10)NOT NULL,
+deptno CHAR(3) CONSTRAINT fk_deptno_to_professor_table REFERENCES dept_table(deptno),
+position VARCHAR2(20) CONSTRAINT position_chk CHECK (position IN ('정교수', '부교수', '전임강사')),
+pay NUMBER NOT NULL
+);
+
+--drop table student_table;
+--drop table professor_table;
+
+INSERT INTO professor_table (profno, name, deptno, position, pay) VALUES (1001, '홍길동', 101, '정교수', 450);
+INSERT INTO professor_table (profno, name, deptno, position, pay) VALUES (1002, '김연아', 102, '정교수', 400);
+INSERT INTO professor_table (profno, name, deptno, position, pay) VALUES (1003, '박지성', 101, '부교수', 350);
+INSERT INTO professor_table (profno, name, deptno, position, pay) VALUES (1004, '김태근', 103, '정교수', 410);
+INSERT INTO professor_table (profno, name, deptno, position, pay) VALUES (1005, '서찬수', 101, '전임강사', 250);
+INSERT INTO professor_table (profno, name, deptno, position, pay) VALUES (1006, '김수현', 103, '부교수', 350);
+INSERT INTO professor_table (profno, name, deptno, position, pay) VALUES (1007, '정동진', 102, '전임강사', 320);
+INSERT INTO professor_table (profno, name, deptno, position, pay) VALUES (1008, '임진영', 103, '전임강사', 200);
+
+-- 7. 학생(student) 테이블에서 101번 학생의 이름을 이기현으로 수정하는 쿼리를 작성하시오.
+-- UPDATE 테이블이름 SET 열이름 = 내용작성 WHERE 열이름 = 조건값
+UPDATE student_table
+    SET name = '이기현'
+        WHERE studno = 101;
+        
+-- 8. student(학생) 테이블과 dept(학과) 테이블을 deptno를 참조하여 EQUI JOIN(등가조인) 하는 쿼리를 작성하시오. (단 select절의 칼럼은 편의상 *으로 표시한다) 
+SELECT * FROM student_table
+JOIN dept_table ON student_table.deptno = dept_table.deptno;
+
+-- 9. 학과(dept). 교수(professor) 테이블을 사용하여 학과별 평균 급여보다 높은 급여를 받는 교수의 이름, 학과명, 급여를 출력하는 쿼리를 작성하시오
+SELECT P.name AS 교수명, D.dname AS 학과명, P.pay AS 급여
+FROM professor_table P
+JOIN dept_table D ON P.deptno = D.deptno
+WHERE P.pay > (
+    SELECT AVG(pay)
+    FROM professor_table
+    WHERE deptno = P.deptno
+    GROUP BY deptno
+)
+ORDER BY D.dname, P.pay DESC;
+
+-- 선생님 답변
+WITH
+ p AS (SELECT deptno, AVG(pay) AS avg_pay FROM professor_table GROUP BY deptno)
+ SELECT p1.name, d.dname, p1.pay 
+ FROM p
+ INNER JOIN dept_table d ON p.deptno = d.deptno
+ INNER JOIN professor_table p1 ON p.deptno = p1.deptno
+ WHERE p1.pay > p.avg_pay
+ ORDER BY p.deptno;
+
+-- 10. professor(교수) 테이블에서 그룹함수를 사용하여 deptno별로 pay의 합과 평균, 인원수를 출력하는 쿼리를 작성하시오. 
+SELECT P.deptno,
+    SUM(P.pay) AS TOTAL_PAY,
+    TRUNC(AVG(P.pay)) AS AVG_PAY,
+    COUNT(*) AS CNT
+    FROM professor_table P
+    INNER JOIN dept_table D ON P.deptno = D.deptno
+    GROUP BY P.deptno;
+
+-- 11. student(학생) 테이블의 deptno는 현재 dept(학과) 테이블의 deptno를 참조하고 있다. student(학생)테이블의 studno가 110인 사람의 deptno를 104로 수정을 해야 한다면 수정을 할 수 없다. 그 이유는 무엇이며 꼭 수정해야한다면 어떻게 해야 할지 서술하시오.(쿼리 작성이 아닌 해결방법만 서술하시오.)
+--student_table 테이블의 studno가 110인 사람의 deptno를 104로 수정할 수 없는 이유는, dept_table 테이블에 deptno가 104인 항목이 존재하지 않기 때문입니다.
+--dept_table에 deptno가 104인 항목을 추가한 뒤에, 수정을 하면됩니다.
+
+-- 12. 교수(professor) 테이블과 학과(dept) 테이블을 활용하여 학과별 급여가 가장 높은 사람의 교수명(name), 학과명(dname),  급여(pay)를 출력하라.
+SELECT P.name, D.dname, P.pay
+    FROM ( SELECT P.deptno, MAX(pay) AS max_pay,
+           FROM professor_table
+           GROUP BY deptno) MaxPay
+INNER JOIN professor_table P ON P.deptno = MaxPay.deptno AND P.pay = MaxPay.max_pay,
+INNER JOIN dept_table D ON P.deptno = D.deptno;
+
+--학과별 최대 급여 계산: 먼저, professor_table에서 각 학과(deptno)별로 최대 급여(MAX(pay))를 계산합니다. 이는 서브쿼리나 CTE(Common Table Expression)를 사용하여 수행할 수 있습니다.
+--최대 급여와 교수 정보 매칭: 계산된 최대 급여를 다시 professor_table과 조인하여, 그 급여를 받는 교수의 정보(이름, 학과 번호, 급여)를 얻습니다. 이 과정에서 학과 번호(deptno)와 급여(pay)가 일치하는 행을 찾습니다.
+--학과 정보 추가: 마지막으로, dept_table과 조인하여 교수가 속한 학과의 이름(dname)을 추가합니다.
+
+-- 13. 학생(student),교수(professor) 테이블을 활용하여 학생의 이름과 학생의 지도 교수명을 출력하다. 단 지도교수가 없는 학생의 이름이 출력되도록 한다. 
+SELECT S.name AS 학생명, P.name AS 지도교수명
+FROM student_table S
+LEFT JOIN professor_table P ON S.profno = P.profno;
+-- LEFT JOIN은 왼쪽 테이블(student_table)의 모든 행과 오른쪽 테이블(professor_table)의 일치하는 행을 반환합니다. 일치하는 행이 없는 경우에는 오른쪽 테이블의 컬럼에 NULL이 반환됩니다.
+
+
+
+-- 14. 괄호 안에 들어갈 명령문을 완성하시오. 
+-- DML이 일어나면 트랜잭션의 완료와 취소를 위한 DCL명령문이 필요하다. 데이터의 변경사항을 데이터베이스에
+-- 영구히 기록시키는 것을 (커밋)이라고 하며, 원래 상태로 돌리는 것을 (롤백)이라고 한다. 
+
+-- 15. guest02 사용자에게 guest01의 student 테이블을 select 할 수 있는 권한을 설정하라.
+GRANT SELECT ON student_table TO guest02;
+
+-- 16. guest02 사용자에게 guest01의 student 테이블을 select 할 수 있는 권한을 제거하라.
+REVOKE SELECT ON student_table TO guest02;
+
+-- 17. 다음은 무엇에 대한 설명인지 쓰시오.                                       
+-- ?기본 테이블로부터 유도되어 만들어지며 독자적으로 존재하지 못하는 가상 테이블이다.
+-- ?필요한 데이터만 정의해서 처리할 수 있기 때문에 관리가 용이하고 명령문이 간단해진다.
+-- 뷰
+
+-- 18. student(학생) 테이블의 studno, name, grade 필드를 선택하여 뷰(VIEW)를 작성하시오
+CREATE VIEW student_info_view AS
+SELECT studno, name, grade
+FROM student_table;
+
+SELECT * FROM student_info_view;
+
+-- 19.그룹함수는 where절에서 비교할 수 없다. 그렇다면 그룹함수는 어떻게 조건을 비교해야 하는가?
+그룹 함수(집계 함수)는 WHERE 절에서 직접 비교할 수 없습니다. 그 이유는 WHERE 절이 각 행에 대해 조건을 평가하고,
+해당 행을 결과 집합에 포함시킬지 여부를 결정하기 때문입니다.
+반면, 그룹 함수는 여러 행의 그룹에 대한 계산(예: 합계, 평균, 최대, 최소 등)을 수행합니다.
+그래서 그룹 함수를 사용하여 조건을 비교하려면, HAVING 절을 사용해야 합니다.
+
+HAVING 절은 그룹 함수의 결과에 조건을 적용할 때 사용됩니다. HAVING 절은 GROUP BY 절과 함께 사용되어,
+그룹화된 결과에 대한 조건을 지정합니다.
+기본적으로 HAVING 절은 GROUP BY 절로 그룹화된 결과에 대한 조건을 평가하고,
+해당 조건을 만족하는 그룹만을 결과 집합에 포함시킵니다.
+
+-예시
+사원 테이블에서 각 부서별 평균 급여가 3000 이상인 부서의 번호와 해당 부서의 평균 급여를 조회하는 SQL 쿼리 예시입니다.
+
+SELECT dept_id, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY dept_id
+HAVING AVG(salary) > 3000;
+이 예시에서는:
+
+GROUP BY dept_id 절이 각 dept_id 값에 대해 그룹을 형성합니다.
+AVG(salary)는 각 그룹(부서)의 평균 급여를 계산합니다.
+HAVING AVG(salary) > 3000 절은 평균 급여가 3000 이상인 그룹만을 결과 집합에 포함시키는 조건을 지정합니다.
+WHERE 절은 그룹화되기 전의 개별 행에 대한 조건을 지정하는 데 사용되고, HAVING 절은 그룹화된 결과에 대한 조건을 지정하는 데 사용됩니다.
+이 구분은 SQL 쿼리를 작성할 때 매우 중요합니다.
+
+
+-- 20. 데이터베이스를 운영하기 위한 정보들을 모두 특정한 테이블에 모아두고 관리하는데 그 테이블을 무엇이라고 하는가?
+-- 여기에는 제약조건 정보, 사용자에 대한 정보, 권한이나 프로파일 롤에 대한 정보를 가지고 있다.
+시스템 카탈로그(System Catalog) 또는 **데이터 딕셔너리(Data Dictionary)**라고 합니다.
+데이터 딕셔너리 (Data Dictionary)
+데이터 딕셔너리는 데이터베이스에 저장된 모든 객체(테이블, 뷰, 인덱스, 사용자, 권한 등)에 대한 정보를
+포함하는 시스템에서 관리하는 테이블과 뷰의 집합입니다. 이는 데이터베이스 관리 시스템(DBMS)에 의해 자동으로 유지되며,
+데이터베이스 관리자와 사용자가 데이터베이스 객체에 대한 중요한 정보를 조회할 때 사용됩니다.
+
+데이터 딕셔너리에 저장되는 정보의 예:
+테이블 구조: 각 테이블의 컬럼 이름, 데이터 타입, 기본값 등
+제약조건 정보: 테이블의 기본키, 외래키, 체크 제약조건, 유니크 제약조건 등
+사용자 정보: 데이터베이스에 접근할 수 있는 사용자 목록과 그들의 권한
+권한 정보: 객체(테이블, 뷰 등)에 대한 사용자 또는 사용자 그룹의 접근 권한
+프로시저 및 함수: 저장 프로시저, 함수에 대한 정의와 파라미터 정보
+인덱스 정보: 테이블에 정의된 인덱스와 이들의 속성
+데이터 딕셔너리의 중요성:
+데이터베이스 설계: 데이터베이스 설계자는 데이터 딕셔너리를 참조하여
+                 데이터베이스 구조를 이해하고, 설계를 최적화할 수 있습니다.
+데이터베이스 관리: 관리자는 데이터베이스의 현재 상태, 성능 튜닝, 접근 권한 관리 등을 위해 데이터 딕셔너리를 사용합니다.
+보안: 데이터베이스의 보안 정책을 관리하고, 누가 어떤 데이터에 접근할 수 있는지를 파악하는 데 필요합니다.
+애플리케이션 개발: 개발자는 데이터베이스 구조와 객체에 대한 상세 정보를 데이터 딕셔너리에서 얻어, 애플리케이션 개발에 활용할 수 있습니다.
+
+각 데이터베이스 시스템은 자체적인 데이터 딕셔너리 구조와 조회 방법을 가지고 있으며, 이를 통해 데이터베이스 내부의 메타데이터를 관리합니다.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
