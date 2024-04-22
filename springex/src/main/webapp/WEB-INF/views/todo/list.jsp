@@ -83,25 +83,44 @@
                         <%--                        페이징 부트스트랩의 컴포넌트 요소 넣기.--%>
                         <div>
                             <div class="center-float">
+
                                 <ul class="pagination flex-wrap">
                                     <%--이전 버튼 표시--%>
                                     <c:if test="${responseDTO.prev}">
                                         <li class="page-item">
-                                            <a class="page-link">이전</a>
+                                            <a class="page-link" data-num="#{responseDTO.start - 1}">이전</a>
                                         </li>
                                     </c:if>
 
+<%--                                현재 페이지    --%>
                                     <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}" var="num">
-                                        <li class="page-item"><a class="page-link" href="#">${num}</a></li>
+                                        <li class="page-item ${responseDTO.page == num ? "active" :""}
+"><a class="page-link" data-num="#{num}">${num}</a></li>
                                     </c:forEach>
 
                                     <%--다음 버튼 표시--%>
                                     <c:if test="${responseDTO.next}">
                                         <li class="page-item">
-                                            <a class="page-link">다음</a>
+                                            <a class="page-link" data-num="#{responseDTO.end + 1}">다음</a>
                                         </li>
                                     </c:if>
                                 </ul>
+                                <script>
+                                    document.querySelector(".pagination").addEventListener("click",function (e) {//e : event
+                                        // 기본적인 기능을 방지 하는 함수
+                                        e.preventDefault()
+                                        e.stopPropagation()
+
+                                        const target = e.target
+
+                                        if (target.tagName !== 'A') {
+                                            return
+                                        }
+                                        const num = target.getAttribute("data-num")
+
+                                        self.location = `/todo/list?page=\${num}`
+                                    },false)
+                                </script>
 
 
                             </div>
