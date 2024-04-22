@@ -7,9 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.zerock.springex.domain.TodoVO;
+import org.zerock.springex.dto.PageRequestDTO;
+import org.zerock.springex.dto.TodoDTO;
 import org.zerock.springex.mapper.TodoMapper;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Log4j2
 @ExtendWith(SpringExtension.class)
@@ -31,6 +34,18 @@ public class TodoMapperTests {
         .writer("user00")
         .build();
     todoMapper.insert(todoVO);
-
   }
+
+@Test
+  public void testSelectList(){
+
+  PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+          .page(1)
+          .size(10)
+          .build();
+
+  List<TodoVO> voList = todoMapper.selectList(pageRequestDTO);
+
+  voList.forEach(vo -> log.info(vo));
+}
 }

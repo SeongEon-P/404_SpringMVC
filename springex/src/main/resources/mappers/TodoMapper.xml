@@ -23,6 +23,16 @@
         UPDATE tbl_todo SET title=#{title} , dueDate=#{dueDate}, finished=#{finished}
         WHERE tno = #{tno}
     </update>
+
+<!--    페이징을 위한 sql구문-->
+    <select id="selectList" resultType="org.zerock.springex.domain.TodoVO">
+            select * from tbl_todo order by tno desc limit #{skip}, #{size}
+    </select>
+
+<!--    페이징을 위한 전체 갯수 구하는 sql-->
+    <select id="getCount" resultType="int">
+        select count(tno) from tbl_todo
+    </select>
 </mapper>
 
 

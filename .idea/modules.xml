@@ -7,7 +7,6 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jdbcex.main.iml" filepath="$PROJECT_DIR$/.idea/modules/jdbcex.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/jdbcex.test.iml" filepath="$PROJECT_DIR$/.idea/modules/jdbcex.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/springex.main.iml" filepath="$PROJECT_DIR$/.idea/modules/springex.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springex.test.iml" filepath="$PROJECT_DIR$/.idea/modules/springex.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/w2.main.iml" filepath="$PROJECT_DIR$/.idea/modules/w2.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/w2.test.iml" filepath="$PROJECT_DIR$/.idea/modules/w2.test.iml" />
     </modules>

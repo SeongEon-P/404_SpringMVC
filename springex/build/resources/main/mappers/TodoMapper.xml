@@ -23,6 +23,10 @@
         UPDATE tbl_todo SET title=#{title} , dueDate=#{dueDate}, finished=#{finished}
         WHERE tno = #{tno}
     </update>
+
+    <select id="selectList" resultType="org.zerock.springex.domain.TodoVO">
+            select * from tbl_todo order by tno desc limit #{skip}, #{size}
+    </select>
 </mapper>
 
 
