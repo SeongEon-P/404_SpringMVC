@@ -14,9 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class TodoDTO {
   // DTO(Data Transfer Object) : 프레젠테이션 계층, 보여주는 층.
-  // 결론, 실제 디비에서 , 5개의 정보가 있다고 가정,
-  // 그런데, 내가 실제로 보여줄려는 정보는 3개만 골라서 사용도 가능
-
+  // 결론, 실제 디비에서, 5개의 정보가 있어요.
+  // 그런데, 내가 실제로 보여줄려는 정보는 3개만 골라서, 사용도 가능.
   private Long tno;
   @NotEmpty // null, "     "
   private String title;
