@@ -82,8 +82,8 @@
                                     <button type="button" class="btn btn-secondary">List</button>
                                 </div>
                             </div>
-                            <input type="hidden" name="page" value="${pageRequestDTO.page}">
-                            <input type="hidden" name="size" value="${pageRequestDTO.size}">
+<%--                            <input type="hidden" name="page" value="${pageRequestDTO.page}">--%>
+<%--                            <input type="hidden" name="size" value="${pageRequestDTO.size}">--%>
                         </form>
                         <script>
                             const serverValidResult = {}
@@ -101,13 +101,13 @@
                             document.querySelector(".btn-secondary").addEventListener("click", function(e){
                                 e.preventDefault()
                                 e.stopPropagation()
-                                self.location = "/todo/list"
+                                self.location = "/todo/list?${pageRequestDTO.link}"
                             }, false)
                             const formObj = document.querySelector("form")
                             document.querySelector(".btn-danger").addEventListener("click",function(e){
                                 e.preventDefault()
                                 e.stopPropagation()
-                                formObj.action="/todo/remove"
+                                formObj.action="/todo/remove?${pageRequestDTO.link}"
                                 formObj.method="post"
                                 formObj.submit()
                             },false)

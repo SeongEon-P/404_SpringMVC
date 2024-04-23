@@ -32,6 +32,7 @@
     <!--    페이징을 위한 전체 갯수 구하는 sql-->
     <select id="getCount" resultType="int">
         select count(tno) from tbl_todo
+        <include refid="search"></include>
     </select>
     <sql id ="search">
         <where>

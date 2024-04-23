@@ -52,6 +52,7 @@
 
         <div class="row content">
             <div class="col">
+                <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Search</h5>
                     <form action="/todo/list" method="get">
@@ -61,8 +62,8 @@
                         </div>
                         <div class="mb-3">
                             <input type="checkbox" name="types" value="t" ${pageRequestDTO.checkType("t")?"checked":""}>제목
-                            <input type="checkbox" name="types" value="w" ${pageRequestDTO.checkType("t")?"checked":""}>작성자
-                            <input type="text" name="keyword" class="form-control" value="${pageRequestDTO.keyword}">
+                            <input type="checkbox" name="types" value="w" ${pageRequestDTO.checkType("w")?"checked":""}>작성자
+                            <input type="text" name="keyword" class="form-control" value='<c:out value="${pageRequestDTO.keyword}"/>'>
                         </div>
                         <div class="input-group mb-3 dueDateDiv">
                             <input type="date" name="from" class="form-control" value="${pageRequestDTO.from}">
@@ -75,6 +76,7 @@
                             </div>
                         </div>
                     </form>
+                </div>
                 </div>
             </div>
         </div>
@@ -164,7 +166,10 @@
                                             // 정확히 하면 PageRequestDTO에 담아서 호출하고,
                                             // 서버는 PageResponseDTO에 담아서 화면에 보내고
                                             // 화면은 해당 인스턴스 이용해서, 화면에 출력하는 형식
-                                            self.location = `/todo/list?page=\${num}`
+                                            // self.location = `/todo/list?page=\${num}`
+                                            const formObj = document.querySelector("form")
+                                            formObj.innerHTML += `<input type='hidden' name='page' value='\${num}'>`
+                                            formObj.submit();
                                         },false)
 
                                     document.querySelector(".clearBtn").addEventListener("click",
