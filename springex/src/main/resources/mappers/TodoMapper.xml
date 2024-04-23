@@ -26,28 +26,42 @@
     <!--    페이징을 위한 sql 구문-->
     <select id="selectList" resultType="org.zerock.springex.domain.TodoVO">
         select * from tbl_todo
-        <where>
-        <if test="types!=null and types.length > 0">
-        <foreach collection="types" item="type" open="(" close=")" separator=" OR ">
-            <if test="type == 't'.toString()">
-                title LIKE concat('%',#{keyword},'%')
-            </if>
-
-            <if test="type == 'w'.toString()">
-                writer LIKE concat('%',#{keyword},'%')
-            </if>
-
-        </foreach>
-        </if>
-        </where>
+        <include refid="search"></include>
         order by tno desc limit #{skip}, #{size}
-
-
     </select>
     <!--    페이징을 위한 전체 갯수 구하는 sql-->
     <select id="getCount" resultType="int">
         select count(tno) from tbl_todo
     </select>
+    <sql id ="search">
+        <where>
+            <if test="types!=null and types.length > 0">
+                <foreach collection="types" item="type" open="(" close=")" separator=" OR ">
+                    <if test="type == 't'.toString()">
+                        title LIKE concat('%',#{keyword},'%')
+                    </if>
+
+                    <if test="type == 'w'.toString()">
+                        writer LIKE concat('%',#{keyword},'%')
+                    </if>
+
+                </foreach>
+            </if>
+            <if test="finished">
+                <trim prefix="and">
+                    finished = 1
+                </trim>
+            </if>
+            <if test="from != null and to != null">
+                <trim prefix="and">
+                    dueDate BETWEEN #{from} AND #{to}
+                </trim>
+            </if>
+        </where>
+
+
+    </sql>
+
 </mapper>
 
 
