@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul>
+        <th:block th:each="str:${list}">
+            <li>[[${str}]]</li>
+        </th:block>
+    </ul>
+    <ul>
+        <li th:each="str:${list}" th:text="${str}"></li>
+    </ul>
+
+    <ul>
+        <li th:each="str,status:${list}" >
+            [[${status.index}]]--[[${status.count}]]--[[${status.size}]]--[[${status.first}]]--[[${status.last}]]--[[${status.odd}]]--[[${status.even}]]--[[${str}]]
+        </li>
+    </ul>
+    <ul>
+        <li th:each="str,status:${list}" >
+<!--            if ==-->
+<!--            unless !=-->
+            <span th:if="${status.odd}">ODD -- [[${str}]]</span>
+            <span th:unless="${status.odd}">EVEN -- [[${str}]]</span>
+        </li>
+    </ul>
+
+<!--    인라인 방식-->
+    <h4>[[${list}]]</h4>
+    <hr/>
+<!--    태그 방식-->
+    <h4 th:text="${list}"></h4>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
