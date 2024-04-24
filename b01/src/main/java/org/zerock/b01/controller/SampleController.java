@@ -62,16 +62,44 @@ public class SampleController {
 
     model.addAttribute("dto", sampleDTO);
   }
-  @GetMapping("/ex/ex3")
-  public void ex3(Model model) {
+  @GetMapping("/ex/ex3_notice_list")
+  public void ex3_notice_list(Model model) {
 
-    model.addAttribute("arr", new String[]{"AAA", "BBB", "CCC"});
   }
 
-  @GetMapping("/ex/ex3_1")
-  public void ex3_1(Model model) {
+  @GetMapping("/ex/ex3_notice_view")
+  public void ex3_notice_view(Model model) {
 
-    model.addAttribute("arr", new String[]{"AAA", "BBB", "CCC"});
+  }
+
+  @GetMapping("/ex/ex3_notice_add")
+  public void ex3_notice_add(Model model) {
+
+  }
+
+  @GetMapping("/ex/ex3_login")
+  public void ex3_login(Model model) {
+
+  }
+
+  @GetMapping("/ex/ex3_join")
+  public void ex3_join(Model model) {
+
+  }
+
+  @GetMapping("/ex/ex3_index")
+  public void ex3_index(Model model) {
+
+  }
+
+  @GetMapping("/ex/ex3_mypage")
+  public void ex3_mypage(Model model) {
+
+  }
+
+  @GetMapping("/ex/ex3_program")
+  public void ex3_program(Model model) {
+
   }
 
 }
