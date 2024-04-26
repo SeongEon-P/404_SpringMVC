@@ -9,32 +9,18 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Board extends BaseEntity{
+public class Notice extends BaseEntity{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long bno;
+  private Long no;
   @Column(length = 500, nullable = false)
   private String title;
   @Column(length = 2000, nullable = false)
   private String content;
-  @Column(length = 50, nullable = false)
-  private String writer;
+  private Long count;
 
   public void change(String title, String content){
     this.title = title;
     this.content = content;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,6 +1,5 @@
 package org.zerock.b01.domain;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
@@ -12,16 +11,31 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
-@EntityListeners(value = { AuditingEntityListener.class })
+@EntityListeners(value = {AuditingEntityListener.class})
 @Getter
-abstract class BaseEntity{
+abstract class BaseEntity {
+  @CreatedDate
+  @Column(name="regdate", updatable = false)
+  private LocalDateTime regDate;
 
-    @CreatedDate
-    @Column(name = "regdate", updatable = false)
-    private LocalDateTime regDate;
-
-    @LastModifiedDate
-    @Column(name = "moddate")
-
-    private LocalDateTime modDate;
+  @LastModifiedDate
+  @Column(name="moddate")
+  private LocalDateTime modDate;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
