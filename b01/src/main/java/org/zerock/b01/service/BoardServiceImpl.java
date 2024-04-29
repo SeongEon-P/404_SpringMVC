@@ -9,6 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.zerock.b01.domain.Board;
 import org.zerock.b01.dto.BoardDTO;
+import org.zerock.b01.dto.BoardListReplyCountDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.repository.BoardRepository;
@@ -72,6 +73,28 @@ public class BoardServiceImpl implements BoardService {
         .dtoList(dtoList)
         .total((int)result.getTotalElements())
         .build();
+  }
+
+  // 게시글 목록 조회시, 댓글 갯수 같이 출력
+  @Override
+  public PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO) {
+
+    String[] types = pageRequestDTO.getTypes();
+    String keyword = pageRequestDTO.getKeyword();
+    Pageable pageable = pageRequestDTO.getPageable("bno");
+    //레포지토리를 실행하여 데이터 취득
+    Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types,keyword,pageable);
+
+//    // VO를 DTO로 변환, 원래는 엔티티 클래스 타입을 DTO타입으로 수동으로 변환하는 코드임. Projection을 해놔서 이렇게 수동으로 안바꿔도됨.
+//    List<BoardDTO> dtoList = result.getContent().stream()
+//            .map(board -> modelMapper.map(board, BoardDTO.class))
+//            .collect(Collectors.toList());
+
+    return PageResponseDTO.<BoardListReplyCountDTO>withAll()
+            .pageRequestDTO(pageRequestDTO)
+            .dtoList(result.getContent())
+            .total((int)result.getTotalElements())
+            .build();
   }
 }
 
