@@ -23,13 +23,13 @@ public class BoardRepositoryTests {
   @Test
   public void testInsert(){
     IntStream.rangeClosed(1,100).forEach(i->{
-        Board board = Board.builder()
-            .title("title..."+i)
-            .content("content..."+i)
-            .writer("user"+(i%10))
-        .build();
-        Board result = boardRepository.save(board);
-        log.info("BNO: " + result.getBno());
+      Board board = Board.builder()
+              .title("title..."+i)
+              .content("content..."+i)
+              .writer("user"+(i%10))
+              .build();
+      Board result = boardRepository.save(board);
+      log.info("BNO: " + result.getBno());
     });
   }
   @Test
@@ -59,7 +59,7 @@ public class BoardRepositoryTests {
   @Test
   public void testPaging(){
     Pageable pageable =
-        PageRequest.of(1,10, Sort.by("bno").descending());
+            PageRequest.of(1,10, Sort.by("bno").descending());
     Page<Board> result = boardRepository.findAll(pageable);
     log.info("total Count : " + result.getTotalElements());
     log.info("total pages : " + result.getTotalPages());
@@ -91,14 +91,15 @@ public class BoardRepositoryTests {
     result.getContent().forEach(board->log.info(board));
   }
 
-  // 게시글 조회시, 해당 댓글의 갯수도 같이 조회하기
+  //게시글 조회시, 해당 댓글의 갯수도 같이 조회하기.
   @Test
   public void testSearchReplyCount(){
+    //동적 WHERE위한 조건식값 설정하기 title, content, writer
     String[] types = {"t","c","w"};
     // 검색할 문자열 저장
     String keyword = "1";
     //몇개의 데이터를 어떤 정렬로 검색할지 설정
-    Pageable pageable = PageRequest.of(0,10,Sort.by("bno").descending());
+    Pageable pageable = PageRequest.of(1,10,Sort.by("bno").descending());
     //위의 조건식으로 데이터베이스에서 조회하는 레포지토리 실행
     Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types,keyword,pageable);
 
@@ -107,21 +108,5 @@ public class BoardRepositoryTests {
     log.info(result.getNumber());
     log.info(result.hasPrevious() + ":" + result.hasNext());
     result.getContent().forEach(board->log.info(board));
-
   }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

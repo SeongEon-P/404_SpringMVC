@@ -38,19 +38,3 @@ public class PageResponseDTO<E> {
   }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -18,20 +18,20 @@ public class BoardServiceTests {
   public void testRegister() {
     log.info(boardService.getClass().getName());
     BoardDTO boardDTO = BoardDTO.builder()
-        .title("Sample Title...")
-        .content("Sample Content...")
-        .writer("user00")
-        .build();
+            .title("Sample Title...")
+            .content("Sample Content...")
+            .writer("user00")
+            .build();
     Long bno = boardService.register(boardDTO);
     log.info(bno);
   }
   @Test
   public void testModify(){
     BoardDTO boardDTO = BoardDTO.builder()
-        .bno(102L)
-        .title("update....101")
-        .content("Updated content 101...")
-        .build();
+            .bno(102L)
+            .title("update....101")
+            .content("Updated content 101...")
+            .build();
     boardService.modify(boardDTO);
   }
   @Test
@@ -42,31 +42,12 @@ public class BoardServiceTests {
   @Test
   public void testList(){
     PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
-        .type("tcw")
-        .keyword("1")
-        .page(1)
-        .size(10)
-        .build();
+            .type("tcw")
+            .keyword("1")
+            .page(1)
+            .size(10)
+            .build();
     PageResponseDTO<BoardDTO> responseDTO = boardService.list(pageRequestDTO);
     log.info(responseDTO);
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

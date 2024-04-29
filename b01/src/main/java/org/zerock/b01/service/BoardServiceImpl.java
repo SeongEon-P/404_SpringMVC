@@ -14,7 +14,6 @@ import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
 import org.zerock.b01.repository.BoardRepository;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -64,31 +63,32 @@ public class BoardServiceImpl implements BoardService {
     //레포지토리를 실행하여 데이터 취득
     Page<Board> result = boardRepository.searchAll(types,keyword,pageable);
     // VO를 DTO로 변환
-    List<BoardDTO> dtoList = result.getContent().stream()
-        .map(board -> modelMapper.map(board, BoardDTO.class))
-        .collect(Collectors.toList());
+    List<BoardDTO>dtoList = result.getContent().stream()
+            .map(board -> modelMapper.map(board, BoardDTO.class))
+            .collect(Collectors.toList());
 
     return PageResponseDTO.<BoardDTO>withAll()
-        .pageRequestDTO(pageRequestDTO)
-        .dtoList(dtoList)
-        .total((int)result.getTotalElements())
-        .build();
+            .pageRequestDTO(pageRequestDTO)
+            .dtoList(dtoList)
+            .total((int)result.getTotalElements())
+            .build();
   }
 
-  // 게시글 목록 조회시, 댓글 갯수 같이 출력
+  // 게시글 목록 조회시 , 댓글 갯수 같이 출력
   @Override
   public PageResponseDTO<BoardListReplyCountDTO> listWithReplyCount(PageRequestDTO pageRequestDTO) {
-
+    //페이지 및 검색 조건 취득
     String[] types = pageRequestDTO.getTypes();
     String keyword = pageRequestDTO.getKeyword();
     Pageable pageable = pageRequestDTO.getPageable("bno");
     //레포지토리를 실행하여 데이터 취득
     Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types,keyword,pageable);
 
-//    // VO를 DTO로 변환, 원래는 엔티티 클래스 타입을 DTO타입으로 수동으로 변환하는 코드임. Projection을 해놔서 이렇게 수동으로 안바꿔도됨.
-//    List<BoardDTO> dtoList = result.getContent().stream()
-//            .map(board -> modelMapper.map(board, BoardDTO.class))
-//            .collect(Collectors.toList());
+    // VO를 DTO로 변환, 원래는 엔티티 클래스 타입 -> DTO 타입으로 수동으로 변환.
+//    List<BoardDTO>dtoList = result.getContent().stream()
+//        .map(board -> modelMapper.map(board, BoardDTO.class))
+//        .collect(Collectors.toList());
+    // 우리는 자동으로 Projections 이용해서, 미리 자동으로 타입을 변환 하게 설정 해둠.
 
     return PageResponseDTO.<BoardListReplyCountDTO>withAll()
             .pageRequestDTO(pageRequestDTO)
@@ -97,23 +97,3 @@ public class BoardServiceImpl implements BoardService {
             .build();
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
