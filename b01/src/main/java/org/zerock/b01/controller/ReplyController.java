@@ -79,4 +79,8 @@ public class ReplyController {
         resultMap.put("rno", rno);
         return resultMap;
     }
+
+
+
+
 }
