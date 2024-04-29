@@ -68,4 +68,15 @@ public class ReplyController {
         return replyDTO;
     }
 
+
+
+    @Tag(name = "댓글 삭제", description = "DELETE 방식 특정 게시물의 댓글 삭제")
+    // 특정 댓글 목록 조회
+    @DeleteMapping(value = "/{rno}")
+    public Map<String,Long> remove( @PathVariable("rno") Long rno){
+        replyService.remove(rno);
+        Map<String,Long> resultMap = new HashMap<>();
+        resultMap.put("rno", rno);
+        return resultMap;
+    }
 }
