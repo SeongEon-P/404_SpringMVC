@@ -60,4 +60,12 @@ public class ReplyController {
         return responseDTO;
     }
 
+    @Tag(name = "댓글 읽기", description = "get 방식 특정 게시물의 댓글 조회")
+    // 특정 댓글 목록 조회
+    @GetMapping(value = "/{rno}")
+    public ReplyDTO getReplyDTO( @PathVariable("rno") Long rno){
+        ReplyDTO replyDTO = replyService.read(rno);
+        return replyDTO;
+    }
+
 }
