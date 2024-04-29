@@ -1,5 +1,6 @@
 package org.zerock.b01.controller;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,6 +20,7 @@ import org.zerock.b01.service.BoardService;
 @RequestMapping("/board")
 @Log4j2
 @RequiredArgsConstructor
+
 public class BoardController {
   private final BoardService boardService;
   @GetMapping("/list")

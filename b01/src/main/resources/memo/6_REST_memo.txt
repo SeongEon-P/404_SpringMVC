@@ -48,3 +48,11 @@ GET, URI: /boards/123, 게시글 조회
 POST, URI : /boards/
 PUT, URI: /boards/123, 게시글 수정
 DELETE, URI: /boards/123, 게시글 삭제
+
+p520, REST 방식 댓글 처리하는 , API 명세서
+/replies, POST, 댓글 추가, 반환 타입 :추가한 댓글의 댓글 넘버
+/replies/list/:bno, GET, 특정 게시글 번호에서, 댓글 여러개를 볼 예정.
+반환 타입: PageResponseDTO 를 JSON으로 처리
+/replies/:rno , PUT  , 댓글 수정, 반환 타입 : 수정한 댓글 번호
+/replies/:rno , DELETE  , 댓글 삭제, 반환 타입 : 삭제한 댓글 번호
+/replies/:rno , GET  , 댓글 조회, 반환 타입 : 댓글 객체를 JSON으로 변환한 문자열
