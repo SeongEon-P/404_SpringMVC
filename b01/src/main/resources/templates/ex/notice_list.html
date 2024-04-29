@@ -40,7 +40,7 @@
                     <tr th:each="notice:${noticeList}">
 <!--                       dto:${noticeList} 이거 컨트롤러에 있는 이름으로 해야함-->
                         <td th:text="${notice.no}"></td>
-                        <td class="tit_notice"><a href="/ex/notice_view">[[${notice.title}]]</a> </td>
+                        <td class="tit_notice"><a th:href="|@{/ex/notice_view(no=${notice.no})}|">[[${notice.title}]]</a> </td>
                         <td>[[${notice.count}]]</td>
                         <td>[[${#temporals.format(notice.regDate,'yyyy-MM-dd')}]]</td>
                     </tr>

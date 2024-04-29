@@ -16,7 +16,8 @@ public class NoticeDTO {
   private Long no;
   private String title;
   private String content;
-  private Long count;
+  @Builder.Default
+  private Long count=0L;
   private LocalDateTime regDate;
   private LocalDateTime modDate;
 }

@@ -1,5 +1,6 @@
 package org.zerock.b01.controller;
 
+import jakarta.validation.Valid;
 import lombok.Data;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
@@ -7,8 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.Mapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.zerock.b01.dto.BoardDTO;
+
 import org.zerock.b01.dto.NoticeDTO;
 import org.zerock.b01.dto.PageRequestDTO;
 import org.zerock.b01.dto.PageResponseDTO;
@@ -90,37 +97,61 @@ public class SampleController {
   @GetMapping("/ex/notice_list")
   public void notice_list(PageRequestDTO pageRequestDTO, Model model) {
     model.addAttribute("noticeList", noticeService.list(pageRequestDTO));
-
-
-
   }
+
+  @GetMapping({"/ex/notice_view","/ex/notice_modify"})
+  public void notice_view(Long no, PageRequestDTO pageRequestDTO,Model model) {
+    NoticeDTO noticeDTO = noticeService.readOne(no);
+    log.info(noticeDTO);
+    model.addAttribute("notice",noticeDTO);
+//    여기서 "notice"는 view랑 modify에 있는 [[${notice.title}]] 이거할 때 쓴거 그대로 써야함. 아니면 오류.
+  }
+
+
+  @PostMapping("/ex/notice_modify")
+  public String notice_modify( PageRequestDTO pageRequestDTO,
+                        @Valid NoticeDTO noticeDTO
+          , BindingResult bindingResult
+          , RedirectAttributes redirectAttributes) {
+    log.info("board Modify register.......");
+    if(bindingResult.hasErrors()) {
+      log.info("has errors.......");
+      String link = pageRequestDTO.getLink();
+      redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors());
+      redirectAttributes.addAttribute("no",noticeDTO.getNo());
+      return "redirect:/ex/notice_modify?"+link;
+    }
+    System.out.println(noticeDTO.getNo());
+    noticeService.modify(noticeDTO);
+    redirectAttributes.addFlashAttribute("result","modified");
+    redirectAttributes.addAttribute("no",noticeDTO.getNo());
+    return "redirect:/ex/notice_view";
+  }
+
   @GetMapping("/ex/notice_add")
-  public void notice_add(Model model) {
+  public void notice_addGet(Model model) {
   }
-  @GetMapping("/ex/notice_view")
-  public void notice_view(Model model) {
+
+  @PostMapping("/ex/notice_add")
+  public String notice_addPost(NoticeDTO noticeDTO, RedirectAttributes redirectAttributes, Model model) {
+    Long no = noticeService.register(noticeDTO);
+    redirectAttributes.addFlashAttribute("no","no");
+    return "redirect:/ex/notice_list";
+
   }
+
+
+  @PostMapping("/ex/notice_remove")
+  public String notice_remove(Long no,Model model) {
+    noticeService.remove(no);
+    return "redirect:/ex/notice_list";
+  }
+//
+//  @GetMapping("/ex/notice_view")
+//  public void notice_view(Long no, Model model) {
+//    model.addAttribute("notice", noticeService.readOne(no));
+//  }
   @GetMapping("/ex/program")
   public void program(Model model) {
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

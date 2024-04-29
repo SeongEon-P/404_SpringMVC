@@ -18,18 +18,18 @@
 
 		<!-- bodytext_area -->
 		<div class="bodytext_area box_inner">	
-			<form action="" method="POST">		
+			<form action="/ex/notice_add" method="POST">
 			<ul class="bbsview_list">
 					<li class="bbs_title">제목 : <input type="text" name="title" size="100" placeholder="제목을 입력해주세요."></li>
 					<li class="bbs_content">
 						<div class="editer_content">
-							<textarea name="contents" cols="110" rows="20" placeholder="내용을 입력해주세요."></textarea>
+							<textarea name="content" cols="110" rows="20" placeholder="내용을 입력해주세요."></textarea>
 						</div>
 					</li>
 			</ul>
 			<p class="btn_line txt_right">
 				<input type="submit" value="글쓰기" class="btn_srch">
-				<a href="notice_list.html" class="btn_bbs">목록</a>
+				<a href="/ex/notice_list" class="btn_bbs">목록</a>
 			</p>
 			</form>
 			<ul class="near_list mt20">
@@ -40,6 +40,17 @@
 		<!-- //bodytext_area -->
 
 	</div>
-	<!-- //container -->
+<script layout:fragment="script" th:inline="javascript">
+	const errors = [[${errors}]]
+	console.log(errors)
+	let errorMsg = ''
+	if(errors){
+		for(let i=0; i<errors.length; i++){
+			errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
+		}
+		alert(errorMsg)
+	}
+</script>
+
 
 </html>
