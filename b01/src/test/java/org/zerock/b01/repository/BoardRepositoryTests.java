@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.zerock.b01.domain.Board;
+import org.zerock.b01.dto.BoardListReplyCountDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -89,6 +90,26 @@ public class BoardRepositoryTests {
     log.info(result.hasPrevious() + ":" + result.hasNext());
     result.getContent().forEach(board->log.info(board));
   }
+
+  // 게시글 조회시, 해당 댓글의 갯수도 같이 조회하기
+  @Test
+  public void testSearchReplyCount(){
+    String[] types = {"t","c","w"};
+    // 검색할 문자열 저장
+    String keyword = "1";
+    //몇개의 데이터를 어떤 정렬로 검색할지 설정
+    Pageable pageable = PageRequest.of(0,10,Sort.by("bno").descending());
+    //위의 조건식으로 데이터베이스에서 조회하는 레포지토리 실행
+    Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types,keyword,pageable);
+
+    log.info(result.getTotalPages());
+    log.info(result.getSize());
+    log.info(result.getNumber());
+    log.info(result.hasPrevious() + ":" + result.hasNext());
+    result.getContent().forEach(board->log.info(board));
+
+  }
+
 }
 
 
