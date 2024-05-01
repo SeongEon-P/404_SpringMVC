@@ -14,6 +14,7 @@
     <script src="/js/html5shiv.js"></script>
     <script src="/js/placeholders.min.js"></script>
     <![endif]-->
+<!--    <th:block layout:fragment="head"></th:block>-->
 </head>
 
 <body>
@@ -30,8 +31,9 @@
             <!-- header_cont -->
             <div class="header_cont">
                 <ul class="util clear">
-                    <li><a href="/ex/login">로그인</a></li>
-                    <li><a href="/ex/join">회원가입</a></li>
+                    <li th:if="${session.loginInfo == null}"><a href="/member/login">로그인</a></li>
+                    <li th:if="${session.loginInfo != null}">><a href="/member/logout">로그아웃</a></li>
+                    <li><a href="/member/join">회원가입</a></li>
                 </ul>
                 <nav>
                     <ul class="gnb clear">
@@ -55,7 +57,7 @@
                         <li><a href="javascript:;" class="openAll3">상품투어</a>
                             <div class="gnb_depth gnb_depth2_3">
                                 <ul class="submenu_list">
-                                    <li><a href="/ex/program">프로그램 소개</a></li>
+                                    <li><a href="/program/list">프로그램 소개</a></li>
                                     <li><a href="javascript:;">여행자료</a></li>
                                 </ul>
                             </div>

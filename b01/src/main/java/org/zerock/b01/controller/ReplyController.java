@@ -81,6 +81,16 @@ public class ReplyController {
     }
 
 
+    @Tag(name = "댓글 수정", description = "PUT 방식 특정 게시물의 댓글 수정")
+    // 특정 댓글 목록 조회
+    @PutMapping(value = "/{rno}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Map<String,Long> modify(@PathVariable("rno") Long rno, @RequestBody ReplyDTO replyDTO) {
+        replyDTO.setRno(rno);
+        replyService.modify(replyDTO);
+        Map<String,Long> resultMap = new HashMap<>();
+        resultMap.put("rno", rno);
+        return resultMap;
+    }
 
 
 }

@@ -5,6 +5,8 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/b01.main.iml" filepath="$PROJECT_DIR$/.idea/modules/b01.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/b01.test.iml" filepath="$PROJECT_DIR$/.idea/modules/b01.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/database.iml" filepath="$PROJECT_DIR$/.idea/database.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springex.main.iml" filepath="$PROJECT_DIR$/.idea/modules/springex.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springex.test.iml" filepath="$PROJECT_DIR$/.idea/modules/springex.test.iml" />
     </modules>
   </component>
 </project>
