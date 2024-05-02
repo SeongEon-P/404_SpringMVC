@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface BookMapper {
   void addBook(BookVO bookVO);
-//  List<BookVO> selectAll();
+  List<BookVO> selectAll();
 
 }

@@ -19,7 +19,7 @@ href="/resources/css/bootstrap.min.css">
 		<div class="row align-items-center">
 			<c:forEach items="${books}" var="book">
 			<div class="col-md-4">
-				<img src="/upload/${book.imgFileName}" style="width:100%;" alt="" >
+				<img src="/image/${book.imgFileName}" style="width:100%;" alt="" >
 			</div>
 			<div class="col-md-5">
 				<h3>[${book.category}]${book.name}</h3>

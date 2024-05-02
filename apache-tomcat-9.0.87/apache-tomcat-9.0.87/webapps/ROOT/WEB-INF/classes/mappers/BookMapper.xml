@@ -11,9 +11,9 @@
         VALUES (#{id},#{name},#{description},#{category},#{author},#{publisher},#{releaseDate},#{pages},#{unitPrice},#{unitInStock},#{imgFileName})
     </insert>
 
-<!--    <select id="selectAll" resultType="org.zerock.springex.domain.BookVO">-->
-<!--        SELECT * FROM Book ORDER BY id DESC-->
-<!--    </select>-->
+    <select id="selectAll" resultType="org.zerock.bookmarket.domain.BookVO">
+        SELECT * FROM book ORDER BY id DESC
+    </select>
 
 
 
