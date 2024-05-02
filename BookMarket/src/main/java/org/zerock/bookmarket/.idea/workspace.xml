@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="b19c14b1-da5a-4c61-a403-b0c0fbc77500" name="변경" comment="">
+      <change afterPath="$PROJECT_DIR$/../../../../../../.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../.idea/gradle.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../gradlew.bat" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../../../settings.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/HelloServlet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../resources/META-INF/beans.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../resources/META-INF/persistence.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/book/addBook.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/book/book.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/book/books.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/book/editBook.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/book/updateBook.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/error/exceptionNoPage.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/error/exceptionNoProductId.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/member/join.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/views/member/login.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/WEB-INF/web.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap-grid.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap-grid.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap-grid.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap-grid.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap-reboot.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap-reboot.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap-reboot.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap-reboot.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap.min.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/css/bootstrap.min.css.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/footer.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/B1234.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/B1235.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/B1236.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/B1237.jpeg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/P1234.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/P1235.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/P1236.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/chef.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/html5-css3.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/java.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/oracle.PNG" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/images/spring.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/index.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/bootstrap.bundle.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/bootstrap.bundle.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/bootstrap.bundle.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/bootstrap.bundle.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/bootstrap.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/bootstrap.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/bootstrap.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/bootstrap.min.js.map" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/js/validation.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/menu.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../../../../webapp/welcome.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../.idea/dataSources.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/.gradle/8.2/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/src/main/java/org/zerock/springex/controller/TodoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/src/main/java/org/zerock/springex/controller/TodoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../springex/src/main/webapp/WEB-INF/views/todo/register.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../springex/src/main/webapp/WEB-INF/views/todo/register.jsp" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../../../.." />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "SeongEon-P"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/SeongEon-P/404_SpringMVC.git",
+    "accountId": "00f2e6a9-e2f3-4d0d-a7ab-a8c922daa3e0"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 5
+}]]></component>
+  <component name="ProjectId" id="2ftENk1heV2F92goAIlXttZg5aN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/admin/Desktop/database/BookMarket/src/main/java/org/zerock/bookmarket",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="b19c14b1-da5a-4c61-a403-b0c0fbc77500" name="변경" comment="" />
+      <created>1714611935577</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714611935577</updated>
+      <workItem from="1714611936810" duration="19000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

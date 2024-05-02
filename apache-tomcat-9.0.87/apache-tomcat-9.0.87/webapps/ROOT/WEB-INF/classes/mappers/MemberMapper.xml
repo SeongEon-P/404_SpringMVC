@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.zerock.bookmarket.mapper.MemberMapper">
+    <select id="getTime" resultType="string">
+        SELECT now()
+    </select>
+    <insert id="join">
+        INSERT INTO bmember (memberID,memberPW,memberName,phone,address,email)
+        VALUES (#{memberID},#{memberPW},#{memberName},#{phone},#{address},#{email})
+    </insert>
+
+    <select id="login" resultType="org.zerock.bookmarket.domain.MemberVO">
+        SELECT*FROM bmember WHERE memberID = #{memberID} AND memberPW = #{memberPW}
+    </select>
+
+
+
+
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
