@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>도서 등록</title>
-<link rel="stylesheet" href="/webapp/css/bootstrap.min.css">
+<link rel="stylesheet" href="/resources/css/bootstrap.min.css">
 <script type="text/javascript" src="/resources/js/validation.js"></script>
 </head>
 <body>
