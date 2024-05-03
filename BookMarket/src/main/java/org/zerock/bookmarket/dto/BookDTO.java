@@ -27,6 +27,7 @@ public class BookDTO {
         private String unitPrice;
         private String unitInStock;
         private String imgFileName;
+        private String bcondition;
         private LocalDateTime createDate;
 
 }

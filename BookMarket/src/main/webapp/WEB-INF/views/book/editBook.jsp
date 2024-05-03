@@ -10,7 +10,7 @@
 <script type="text/javascript">
 	function deleteConfirm(id){
 		if(confirm("해당 상품을 삭제합니다!!")==true){
-			location.href="/book/remove?id=" + id;
+			location.href="/book/delete?id=" + id;
 		}else{
 			return;
 		}
@@ -28,12 +28,12 @@
 	<div class="row" align="center">
 			<c:forEach items="${books}" var="book">
 			<div class="col-md-4">
-				<img src="/upload/${book.imgFileName}" style="width:100%;" alt="">
+				<img src="/image/${book.imgFileName}" style="width:100%;" alt="">
 				<h3>${book.name}</h3>
 				<p>${book.description}</p>
 				<p>${book.unitPrice}</p>
 				<p>
-					<a href="/book/modify?id=${book.id}" class="btn btn-success" role="button">수정 &raquo;</a>
+					<a href="/book/updateBook?id=${book.id}" class="btn btn-success" role="button">수정 &raquo;</a>
 					<a href="#" onclick="deleteConfirm('${book.id}')" class="btn btn-danger" role="button">삭제 &raquo;</a>
 				</p>
 			</div>
@@ -44,19 +44,3 @@
 	<jsp:include page="../footer.jsp" />
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

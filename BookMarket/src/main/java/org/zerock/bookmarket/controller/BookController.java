@@ -43,7 +43,7 @@ public class BookController {
             redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
             return "redirect:/book/addBook";
         }
-        log.info("POST todo register.......");
+        log.info("POST book register.......");
         //실제 파일 이름 출력
         log.info(file.getOriginalFilename());
         //파일의 크기
@@ -60,12 +60,51 @@ public class BookController {
         return "redirect:/";
     }
 
-    @GetMapping("/books")
-    public String books(Model model) {
+    @GetMapping({"/books", "/editBook"})
+    public void books(Model model) {
         model.addAttribute("books",bookService.listAll());
-        return "/book/books";
+//        return "/book/books";
     }
 
 
+    @GetMapping({"/book", "/updateBook"})
+    public void book(String id, Model model) {
+          model.addAttribute("book",bookService.readBook(id));
+    }
 
+
+//    @GetMapping({"/updateBook"})
+//    public void book(String id, Model model) {
+//        model.addAttribute("book",bookService.readBook(id));
+//    }
+
+
+    @PostMapping("/updateBook")
+    public String updateBook(@Valid BookDTO book,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes, BookDTO bookDTO, MultipartFile file) throws IOException {
+        if(bindingResult.hasErrors()){
+            log.info("has errors.......");
+            redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+            redirectAttributes.addAttribute("id",book.getId());
+            return "redirect:/book/updateBook";
+        }
+        file.transferTo(new File("C://files//" + file.getOriginalFilename()));
+        bookDTO.setImgFileName(file.getOriginalFilename());
+        bookService.soojungBook(book);
+        // 페이지, 사이즈 정보를 화면에 전달하기.
+        redirectAttributes.addAttribute("id",book.getId());
+        return "redirect:/book/books";
+    }
+
+    @GetMapping("/delete")
+    public String delete(String id, RedirectAttributes redirectAttributes) {
+        log.info("-----------------delete-------------------");
+        log.info("id:"+id);
+        bookService.remove(id);
+
+        // 페이지, 사이즈 정보를 화면에 전달하기.
+
+        return "redirect:/book/editBook";
+    }
 }

@@ -82,9 +82,9 @@
 			<div class="form-group row">
 				<label class="col-sm-2">상태</label>
 				<div class="col-sm-5">
-					<input type="radio" name="condition" value="New" checked> 신규 도서
-					<input type="radio" name="condition" value="Old" > 중고 도서
-					<input type="radio" name="condition" value="E-Book">  E-Book
+					<input type="radio" name="bcondition" value="New" checked> 신규 도서
+					<input type="radio" name="bcondition" value="Old" > 중고 도서
+					<input type="radio" name="bcondition" value="E-Book">  E-Book
 				</div>
 			</div>
 			<div class="form-group row">

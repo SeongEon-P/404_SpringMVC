@@ -25,7 +25,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-5">
-				<img src="/upload/${book.imgFileName}" style="width:100%;" alt="" >
+				<img src="/image/${book.imgFileName}" style="width:100%;" alt="" >
 			</div>
 			<div class="col-md-6">
 				<h3>${book.name }</h3>

@@ -15,27 +15,30 @@
         SELECT * FROM book ORDER BY id DESC
     </select>
 
+    <select id="book" resultType="org.zerock.bookmarket.domain.BookVO">
+        SELECT * FROM book WHERE id = #{id}
+    </select>
 
 
+<!--    <update id="editBook">-->
+<!--        UPDATE book SET id=#{id}, name=#{name}, description=#{description}, category=#{category}, author=#{author}, publisher=#{publisher},-->
+<!--                        releaseDate=#{releaseDate}, pages=#{pages}, unitPrice=#{unitPrice}, unitInStock=#{unitInStock}, imgFileName=#{imgFileName}-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
 
+    <select id="editBook" resultType="org.zerock.bookmarket.domain.BookVO">
+        SELECT * FROM book ORDER BY id DESC
+    </select>
+
+
+    <update id="updateBook">
+        UPDATE book SET id=#{id}, name=#{name}, description=#{description}, category=#{category}, author=#{author}, publisher=#{publisher},
+                        releaseDate=#{releaseDate}, pages=#{pages}, unitPrice=#{unitPrice}, unitInStock=#{unitInStock}, bcondition=#{bcondition}, imgFileName=#{imgFileName}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete">
+        DELETE FROM book WHERE id = #{id}
+    </delete>
 
 </mapper>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

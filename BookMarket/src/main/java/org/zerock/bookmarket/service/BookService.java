@@ -6,7 +6,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public interface BookService {
-    void register(BookDTO BookDTO);
+    void register(BookDTO bookDTO);
     List<BookDTO> listAll();
+    BookDTO readBook(String id);
 
+    List<BookDTO> modifyBook();
+    void soojungBook(BookDTO bookDTO);
+
+    void remove(String id);
 }

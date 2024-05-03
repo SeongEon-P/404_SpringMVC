@@ -38,4 +38,28 @@ public class BookServiceImpl implements BookService {
                 .map(bookVO -> modelMapper.map(bookVO,BookDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public BookDTO readBook(String id) {
+        return modelMapper.map(bookMapper.book(id), BookDTO.class);
+    }
+
+
+    @Override
+    public List<BookDTO> modifyBook() {
+        return bookMapper.selectAll().stream()
+                .map(bookVO -> modelMapper.map(bookVO,BookDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
+    @Override
+    public void soojungBook(BookDTO bookDTO) {
+        bookMapper.updateBook(modelMapper.map(bookDTO, BookVO.class));
+    }
+
+    @Override
+    public void remove(String id) {
+        bookMapper.delete(id);
+    }
 }
