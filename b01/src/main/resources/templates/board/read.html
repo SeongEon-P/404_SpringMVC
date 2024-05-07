@@ -66,10 +66,101 @@
             </ul>
         </div>
     </div>
+
+    <div class="modal registerModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Register Reply</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Reply Text</span>
+                        <input type="text" class="form-control replyText">
+                    </div>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Replyer</span>
+                        <input type="text" class="form-control replyer">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info registerBtn">Register</button>
+                    <button type="button" class="btn btn-outline-dark closeRegisterBtn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal modifyModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title replyHeader"></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text">Reply Text</span>
+                        <input type="text" class="form-control modifyText">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info modifyBtn">Modify</button>
+                    <button type="button" class="btn btn-danger removeBtn">Remove</button>
+                    <button type="button" class="btn btn-outline-dark closeModifyBtn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/reply.js"></script>
 </div>
+
 <script layout:fragment="script" th:inline="javascript">
+
+
+
+
+
+    //댓글 등록 모달
+    const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"))
+
+    //registerModal, 모달창 내부의 버튼 변수 선언부
+    const registerBtn = document.querySelector(".registerBtn")
+    const closeRegisterBtn = document.querySelector(".closeRegisterBtn")
+
+    //모달창 내부의 인풋태그의 변수 선언
+    const replyText = document.querySelector(".replyText")
+    const replyer = document.querySelector(".replyer")
+
+    //댓글 목록위의 ADD REPLY 버튼 : 모달창 출력 버튼
+    document.querySelector(".addReplyBtn").addEventListener("click", function(e){
+        registerModal.show()
+    },false)
+
+    //모달창 안의 CLOSE : 모달창 끄기 버튼
+    closeRegisterBtn.addEventListener("click", function (e){
+        registerModal.hide()
+    },false)
+
+    //모달창 내부의 Register 버튼:인풋태그의 데이터를 reply.js 보내어 데이터를 저장하고 댓글 목록을 갱신하는 함수
+    registerBtn.addEventListener("click",function(e) {
+        const replyObj = {
+            bno: bno,
+            replyText:replyText.value,
+            replyer:replyer.value}
+
+        addReply(replyObj).then(result => {
+            alert(result.rno)
+            registerModal.hide()
+            replyText.value=''
+            replyer.value=''
+            printReplies(1, 10, true) //댓글 목록 갱신
+        }).catch(e => {
+            alert("Exception..." + e)
+        })
+    },false)
+
     const errors = [[${errors}]]
     console.log(errors)
     let errorMsg = ''
@@ -134,8 +225,69 @@ ${i}</a></li>`}
         replyPaging.innerHTML = pageStr
     }
 
+    //modifyModal
+    const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal"))
+    const replyHeader = document.querySelector(".replyHeader")
+    const modifyText = document.querySelector(".modifyText")
+    const modifyBtn = document.querySelector(".modifyBtn")
+    const removeBtn = document.querySelector(".removeBtn")
+    const closeModifyBtn = document.querySelector(".closeModifyBtn")
 
+    modifyBtn.addEventListener("click", function(e){
+        const replyObj = {
+            bno:bno,
+            rno:replyHeader.innerHTML,
+            replyText:modifyText.value}
+        modifyReply(replyObj).then(result => {
+            alert(result.rno+' 댓글이 수정되었습니다.')
+            replyText.value = ''
+            modifyModal.hide()
+            printReplies(page, size)
+        }).catch(e => {
+            console.log(e)
+        })
+    },false)
+    closeModifyBtn.addEventListener("click", function(e){
+        modifyModal.hide()
+    }, false)
 
+    replyList.addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if(!target || target.tagName != 'SPAN'){
+            return
+        }
+        const rno = target.getAttribute("data-rno")
+        if(!rno){
+            return
+        }
+        getReply(rno).then(reply => {
+            console.log(reply)
+            replyHeader.innerHTML = reply.rno
+            modifyText.value = reply.replyText
+            modifyModal.show()
+        }).catch(e => alert('error' + e))
+    },false)
+    let page = 1
+    let size = 10
+
+    replyPaging.addEventListener("click", function (e){
+        e.preventDefault()
+        e.stopPropagation()
+
+        const target = e.target
+
+        if(!target || target.tagName != 'A'){
+            return
+        }
+        const pageNum = target.getAttribute("data-page")
+        page = pageNum
+        printReplies(page, size)
+
+    }, false)
 
 </script>
 </html>
