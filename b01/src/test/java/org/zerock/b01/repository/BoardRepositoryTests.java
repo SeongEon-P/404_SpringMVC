@@ -23,13 +23,13 @@ public class BoardRepositoryTests {
   @Test
   public void testInsert(){
     IntStream.rangeClosed(1,100).forEach(i->{
-      Board board = Board.builder()
-              .title("title..."+i)
-              .content("content..."+i)
-              .writer("user"+(i%10))
-              .build();
-      Board result = boardRepository.save(board);
-      log.info("BNO: " + result.getBno());
+        Board board = Board.builder()
+            .title("title..."+i)
+            .content("content..."+i)
+            .writer("user"+(i%10))
+        .build();
+        Board result = boardRepository.save(board);
+        log.info("BNO: " + result.getBno());
     });
   }
   @Test
@@ -59,7 +59,7 @@ public class BoardRepositoryTests {
   @Test
   public void testPaging(){
     Pageable pageable =
-            PageRequest.of(1,10, Sort.by("bno").descending());
+        PageRequest.of(1,10, Sort.by("bno").descending());
     Page<Board> result = boardRepository.findAll(pageable);
     log.info("total Count : " + result.getTotalElements());
     log.info("total pages : " + result.getTotalPages());
@@ -110,3 +110,17 @@ public class BoardRepositoryTests {
     result.getContent().forEach(board->log.info(board));
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

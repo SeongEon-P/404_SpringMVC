@@ -14,7 +14,7 @@ import org.zerock.b01.dto.BoardListReplyCountDTO;
 
 import java.util.List;
 
-public class BoardSearchImpl extends QuerydslRepositorySupport implements org.zerock.b01.repository.BoardSearch {
+public class BoardSearchImpl extends QuerydslRepositorySupport implements BoardSearch {
   public BoardSearchImpl() {
     super(Board.class);
   }
@@ -138,3 +138,5 @@ public class BoardSearchImpl extends QuerydslRepositorySupport implements org.ze
 
   }
 }
+
+

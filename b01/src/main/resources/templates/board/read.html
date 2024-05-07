@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-        layout:decorate="~{/layout/basic.html}">
+      layout:decorate="~{/layout/basic.html}">
 <head>
     <title>Board Read</title>
 </head>
@@ -51,6 +51,23 @@
             </div>
         </div>
     </div>
+    <div class="row mt-3">
+        <div class="col-md-12">
+            <div class="my-4">
+                <button class="btn btn-info addReplyBtn">ADD REPLY</button>
+            </div>
+            <ul class="list-group replyList">
+            </ul>
+        </div>
+    </div>
+    <div class="row mt-3">
+        <div class="col">
+            <ul class="pagination replyPaging">
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/reply.js"></script>
 </div>
 <script layout:fragment="script" th:inline="javascript">
     const errors = [[${errors}]]
@@ -62,19 +79,63 @@
         }
         alert(errorMsg)
     }
+    const bno = [[${dto.bno}]]
+    //replyList <ul>태그를 변수에 저장 : JavaScript로 <ul>태그에 <li>태그를 추가하기 위한 변수 설정
+    const replyList = document.querySelector('.replyList')//댓글 목록 DOM
+    //replyPaging <ul>태그를 변수에 저장
+    const replyPaging = document.querySelector('.replyPaging')//페이지 목록 DOM
+    printReplies(1,10)
+
+    function printReplies(page,size,goLast){
+        getList({bno, page, size, goLast}).then(
+            data => {
+                console.log(data)
+                //댓글 리스트를 생성하는 함수
+                printList(data.dtoList)
+                //페이지의 버튼을 생성하는 함수
+                printPages(data)}
+        ).catch(e => {
+            console.error(e)
+        })
+    }
+
+    function printList(dtoList){ //댓글 목록 출력
+        let str = '';
+        if(dtoList &&  dtoList.length > 0){
+            for (const dto of dtoList) {
+                str += `<li class="list-group-item d-flex replyItem">
+                    <span class="col-2">${dto.rno}</span>
+                    <span class="col-6" data-rno="${dto.rno}">${dto.replyText}</span>
+                    <span class="col-2">${dto.replyer}</span>
+                    <span class="col-2">${dto.regDate}</span>
+            </li>`
+            }
+        }
+        //위의 반복문에서 작성한 HTML태그들을 replyList <ul>태그에 더해주는 코드
+        replyList.innerHTML = str
+    }
+    function  printPages(data){//페이지 목록 출력
+        //pagination
+        //innerHTML에 더해줄 HTML태그 문자열을 저장하는 변수
+        let pageStr = '';
+        //뒤로가기 버튼 생성 로직
+        if(data.prev){
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.start-1}">PREV</a></li>`
+        }
+        //숫자로된 페이지 버튼 생성 로직
+        for(let i = data.start; i <= data.end; i++){
+            pageStr +=`<li class="page-item ${i == data.page?"active":""}"><a class="page-link" data-page="${i}">
+${i}</a></li>`}
+        //NEXT 버튼 생성 로직
+        if(data.next){
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.end +1}">NEXT</a></li>`
+        }
+
+        replyPaging.innerHTML = pageStr
+    }
+
+
+
+
 </script>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-

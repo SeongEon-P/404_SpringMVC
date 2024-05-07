@@ -18,7 +18,7 @@ public class Notice extends BaseEntity{
   @Column(length = 2000, nullable = false)
   private String content;
   @Builder.Default
-  private Long count=0L;
+  private Long count = 0L;
 
   public void change(String title, String content){
     this.title = title;

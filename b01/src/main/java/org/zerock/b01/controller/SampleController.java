@@ -56,8 +56,8 @@ public class SampleController {
   public void ex2(Model model) {
     log.info("ex/ex2......................");
     List<String> strList = IntStream.range(1,10)
-            .mapToObj(i->"Data"+i)
-            .collect(Collectors.toList());
+        .mapToObj(i->"Data"+i)
+        .collect(Collectors.toList());
     model.addAttribute("list", strList);
 
     Map<String,String> map = new HashMap<>();
@@ -79,18 +79,26 @@ public class SampleController {
   @GetMapping("/ex/index")
   public void index(Model model) {
   }
-
+  @GetMapping("/ex/join")
+  public void join(Model model) {
+  }
+  @GetMapping("/ex/login")
+  public void login(Model model) {
+  }
+  @GetMapping("/ex/mypage")
+  public void mypage(Model model) {
+  }
   @GetMapping("/ex/notice_list")
   public void notice_list(PageRequestDTO pageRequestDTO, Model model) {
-    model.addAttribute("responseDTO", noticeService.list(pageRequestDTO));
+    model.addAttribute("noticeList", noticeService.list(pageRequestDTO)) ;
   }
   @GetMapping("/ex/notice_add")
   public void notice_addGet(Model model) {
   }
   @PostMapping("/ex/notice_add")
   public String notice_addPost(NoticeDTO noticeDTO
-          , RedirectAttributes redirectAttributes
-          , Model model) {
+      , RedirectAttributes redirectAttributes
+      , Model model) {
     Long no = noticeService.register(noticeDTO);
     redirectAttributes.addFlashAttribute("no",no);
     return "redirect:/ex/notice_list";
@@ -112,7 +120,6 @@ public class SampleController {
   }
   @PostMapping("/ex/notice_remove")
   public String notice_remove(Long no,Model model) {
-    System.out.println(no);
     noticeService.remove(no);
     return "redirect:/ex/notice_list";
   }
@@ -125,3 +132,23 @@ public class SampleController {
   public void program(Model model) {
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

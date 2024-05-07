@@ -29,7 +29,7 @@
 			</ul>
 			<p class="btn_line txt_right">
 				<input type="submit" value="글쓰기" class="btn_srch">
-				<a href="/ex/notice_list" class="btn_bbs">목록</a>
+				<a href="notice_list.html" class="btn_bbs">목록</a>
 			</p>
 			</form>
 			<ul class="near_list mt20">
@@ -40,17 +40,6 @@
 		<!-- //bodytext_area -->
 
 	</div>
-<script layout:fragment="script" th:inline="javascript">
-	const errors = [[${errors}]]
-	console.log(errors)
-	let errorMsg = ''
-	if(errors){
-		for(let i=0; i<errors.length; i++){
-			errorMsg += `${errors[i].field}은(는) ${errors[i].code} \n`
-		}
-		alert(errorMsg)
-	}
-</script>
-
+	<!-- //container -->
 
 </html>

@@ -38,8 +38,8 @@ public class BoardController {
 
   @PostMapping("/register")
   public String registerPOST(@Valid BoardDTO boardDTO
-          , BindingResult bindingResult
-          , RedirectAttributes redirectAttributes) {
+                            , BindingResult bindingResult
+                            , RedirectAttributes redirectAttributes) {
     log.info("board Post register.......");
     if(bindingResult.hasErrors()) {
       log.info("has errors.......");
@@ -61,8 +61,8 @@ public class BoardController {
   @PostMapping("/modify")
   public String modify( PageRequestDTO pageRequestDTO,
                         @Valid BoardDTO boardDTO
-          , BindingResult bindingResult
-          , RedirectAttributes redirectAttributes) {
+                        , BindingResult bindingResult
+                        , RedirectAttributes redirectAttributes) {
     log.info("board Modify register.......");
     if(bindingResult.hasErrors()) {
       log.info("has errors.......");
@@ -85,3 +85,21 @@ public class BoardController {
     return "redirect:/board/list";
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

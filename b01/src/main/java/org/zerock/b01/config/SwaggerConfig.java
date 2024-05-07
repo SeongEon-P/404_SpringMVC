@@ -19,12 +19,12 @@ public class SwaggerConfig {
 //        .build();
 //  }
 
-    @Bean
-    public OpenAPI openAPI() {
-        return new OpenAPI()
-                .info(new Info()
-                        .title("레스트 API 테스트 ")
-                        .description("댓글을 이용해서  REST 방식 테스트 하겠다.")
-                        .version("1.0.0"));
-    }
+  @Bean
+  public OpenAPI openAPI() {
+    return new OpenAPI()
+        .info(new Info()
+            .title("레스트 API 테스트 ")
+            .description("댓글을 이용해서  REST 방식 테스트 하겠다.")
+            .version("1.0.0"));
+  }
 }

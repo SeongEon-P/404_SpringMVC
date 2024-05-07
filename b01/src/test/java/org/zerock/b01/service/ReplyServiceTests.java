@@ -9,18 +9,18 @@ import org.zerock.b01.dto.ReplyDTO;
 @SpringBootTest
 @Log4j2
 public class ReplyServiceTests {
-    @Autowired
-    private ReplyService replyService;
+  @Autowired
+  private ReplyService replyService;
 
-    @Test
-    public void testRegister() {
-        ReplyDTO replyDTO = ReplyDTO.builder()
-                .replyText("댓글 등록!!")
-                .replyer("이상용")
-                .bno(100L)
-                .build();
-        log.info("댓글 등록후 댓글 번호 리턴 : "+replyService.register(replyDTO));
-    }
+  @Test
+  public void testRegister() {
+    ReplyDTO replyDTO = ReplyDTO.builder()
+        .replyText("댓글 등록!!")
+        .replyer("이상용")
+        .bno(100L)
+        .build();
+    log.info("댓글 등록후 댓글 번호 리턴 : "+replyService.register(replyDTO));
+  }
 
 
 }

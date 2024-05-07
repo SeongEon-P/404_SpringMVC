@@ -50,7 +50,9 @@
                                 <td>
                                     <a th:href="|@{/board/read(bno=${dto.bno})}&${link}|">[[${dto.title}]]</a>
 <!--                                    댓글 갯수 표현 추가하기-->
-                                    <span class="badge progress-bar-success" style="background-color: #0a53be">[[${dto.replyCount}]]</span>
+                                    <span class="badge progress-bar-success" style="background-color: #FF0000">
+                                        [[${dto.replyCount}]]
+                                    </span>
                                 </td>
                                 <td>[[${dto.writer}]]</td>
                                 <td>[[${#temporals.format(dto.regDate, 'yyyy-MM-dd')}]]</td>
