@@ -233,11 +233,14 @@ ${i}</a></li>`}
     const removeBtn = document.querySelector(".removeBtn")
     const closeModifyBtn = document.querySelector(".closeModifyBtn")
 
+    //댓글 수정 버튼 이벤트
     modifyBtn.addEventListener("click", function(e){
+        //서버에 보낼 데이터를 설정
         const replyObj = {
-            bno:bno,
-            rno:replyHeader.innerHTML,
-            replyText:modifyText.value}
+            bno:bno,//게시글 번호
+            rno:replyHeader.innerHTML, //댓글 번호
+            replyText:modifyText.value //댓글 내용
+        }
         modifyReply(replyObj).then(result => {
             alert(result.rno+' 댓글이 수정되었습니다.')
             replyText.value = ''
@@ -247,9 +250,28 @@ ${i}</a></li>`}
             console.log(e)
         })
     },false)
+
     closeModifyBtn.addEventListener("click", function(e){
         modifyModal.hide()
     }, false)
+
+    removeBtn.addEventListener("click", function(e){
+           removeReply(replyHeader.innerHTML).then(result => {
+            //메시지 출력
+            alert(result.rno+' 댓글이 삭제되었습니다.')
+            //모달창 초기화
+            replyText.value = ''
+            //모달창 종료
+            modifyModal.hide()
+
+            // page = 1 //이 부분이 있으면 댓글삭제 후 1페이지로 감
+            //댓글 목록 갱신
+            printReplies(page,size)
+        }).catch(e => {
+            console.log(e)
+        })
+    },false)
+
 
     replyList.addEventListener("click", function (e){
         e.preventDefault()
@@ -288,6 +310,7 @@ ${i}</a></li>`}
         printReplies(page, size)
 
     }, false)
+
 
 </script>
 </html>
