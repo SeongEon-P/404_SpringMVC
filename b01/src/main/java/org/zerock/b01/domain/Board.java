@@ -31,11 +31,28 @@ public class Board extends BaseEntity{
     this.content = content;
   }
 
-  @OneToMany(mappedBy = "board") //BoardImage의 board변수
+  @OneToMany(mappedBy = "board",
+                        cascade = {CascadeType.ALL},
+                        fetch = FetchType.LAZY,
+                        orphanRemoval = true)
   @Builder.Default
   //HashSet의 특징은 중복되지 않고, 순서가 없음. 중복되면 삭제됨
   private Set<BoardImage> imageSet = new HashSet<>();
-  
+
+  public void addImage(String uuid, String fileName){
+    BoardImage boardImage = BoardImage.builder()
+            .uuid(uuid)
+            .fileName(fileName)
+            .board(this)
+            .ord(imageSet.size())
+            .build();
+    imageSet.add(boardImage);
+  }
+  public void clearImages() {
+    imageSet.forEach(boardImage -> boardImage.changeBoard(null));
+    this.imageSet.clear();
+  }
 }
+
 
 

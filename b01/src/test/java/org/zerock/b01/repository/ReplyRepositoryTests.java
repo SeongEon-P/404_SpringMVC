@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerock.b01.domain.Board;
 import org.zerock.b01.domain.Reply;
@@ -17,13 +18,15 @@ import org.zerock.b01.domain.Reply;
 public class ReplyRepositoryTests {
   @Autowired
   private ReplyRepository replyRepository;
+    @Autowired
+    private BoardRepository boardRepository;
 
   @Test
   public void testInsert() {
 
     // 더미 데이터 예제
     // 게시글 번호 100번, 100번 게시글에 댓글 추가중.
-    Long bno = 100L;
+    Long bno = 2L;
 
     // Reply 클래스에 멤버로 사용될 더미 예제
     Board board = Board.builder().bno(bno).build();
@@ -51,4 +54,6 @@ public class ReplyRepositoryTests {
 
     result.getContent().forEach(reply -> log.info(reply));
   }
+
+
 }

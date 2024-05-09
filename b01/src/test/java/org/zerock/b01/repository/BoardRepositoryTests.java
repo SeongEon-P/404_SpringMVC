@@ -8,11 +8,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.b01.domain.Board;
+import org.zerock.b01.domain.BoardImage;
 import org.zerock.b01.dto.BoardListReplyCountDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.IntStream;
 
 @SpringBootTest
@@ -20,20 +24,25 @@ import java.util.stream.IntStream;
 public class BoardRepositoryTests {
   @Autowired
   private BoardRepository boardRepository;
+
+  @Autowired
+  private ReplyRepository replyRepository;
+
   @Test
-  public void testInsert(){
-    IntStream.rangeClosed(1,100).forEach(i->{
-        Board board = Board.builder()
-            .title("title..."+i)
-            .content("content..."+i)
-            .writer("user"+(i%10))
-        .build();
-        Board result = boardRepository.save(board);
-        log.info("BNO: " + result.getBno());
+  public void testInsert() {
+    IntStream.rangeClosed(1, 100).forEach(i -> {
+      Board board = Board.builder()
+              .title("title..." + i)
+              .content("content..." + i)
+              .writer("user" + (i % 10))
+              .build();
+      Board result = boardRepository.save(board);
+      log.info("BNO: " + result.getBno());
     });
   }
+
   @Test
-  public void testSelect(){
+  public void testSelect() {
     Long bno = 100L;
     Optional<Board> result = boardRepository.findById(bno);
     Board board = result.orElseThrow();
@@ -41,7 +50,7 @@ public class BoardRepositoryTests {
   }
 
   @Test
-  public void testUpdate(){
+  public void testUpdate() {
     Long bno = 100L;
     Optional<Board> result = boardRepository.findById(bno);
     Board board = result.orElseThrow();
@@ -51,15 +60,15 @@ public class BoardRepositoryTests {
   }
 
   @Test
-  public void testDelete(){
+  public void testDelete() {
     Long bno = 101L;
     boardRepository.deleteById(bno);
   }
 
   @Test
-  public void testPaging(){
+  public void testPaging() {
     Pageable pageable =
-        PageRequest.of(1,10, Sort.by("bno").descending());
+            PageRequest.of(1, 10, Sort.by("bno").descending());
     Page<Board> result = boardRepository.findAll(pageable);
     log.info("total Count : " + result.getTotalElements());
     log.info("total pages : " + result.getTotalPages());
@@ -68,50 +77,102 @@ public class BoardRepositoryTests {
     List<Board> todoList = result.getContent();
     todoList.forEach(board -> log.info(board));
   }
+
   @Test
-  public void testSearch1(){
-    Pageable pageable = PageRequest.of(1,10,Sort.by("bno").descending());
+  public void testSearch1() {
+    Pageable pageable = PageRequest.of(1, 10, Sort.by("bno").descending());
     boardRepository.search1(pageable);
   }
 
   @Test
-  public void testSearchAll(){
+  public void testSearchAll() {
     //동적 WHERE위한 조건식값 설정하기 title, content, writer
-    String[] types = {"t","c","w"};
+    String[] types = {"t", "c", "w"};
     // 검색할 문자열 저장
     String keyword = "1";
     //몇개의 데이터를 어떤 정렬로 검색할지 설정
-    Pageable pageable = PageRequest.of(0,10,Sort.by("bno").descending());
+    Pageable pageable = PageRequest.of(0, 10, Sort.by("bno").descending());
     //위의 조건식으로 데이터베이스에서 조회하는 레포지토리 실행
-    Page<Board> result = boardRepository.searchAll(types,keyword,pageable);
+    Page<Board> result = boardRepository.searchAll(types, keyword, pageable);
     log.info(result.getTotalPages());
     log.info(result.getSize());
     log.info(result.getNumber());
     log.info(result.hasPrevious() + ":" + result.hasNext());
-    result.getContent().forEach(board->log.info(board));
+    result.getContent().forEach(board -> log.info(board));
   }
 
   //게시글 조회시, 해당 댓글의 갯수도 같이 조회하기.
   @Test
-  public void testSearchReplyCount(){
+  public void testSearchReplyCount() {
     //동적 WHERE위한 조건식값 설정하기 title, content, writer
-    String[] types = {"t","c","w"};
+    String[] types = {"t", "c", "w"};
     // 검색할 문자열 저장
     String keyword = "1";
     //몇개의 데이터를 어떤 정렬로 검색할지 설정
-    Pageable pageable = PageRequest.of(1,10,Sort.by("bno").descending());
+    Pageable pageable = PageRequest.of(1, 10, Sort.by("bno").descending());
     //위의 조건식으로 데이터베이스에서 조회하는 레포지토리 실행
-    Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types,keyword,pageable);
+    Page<BoardListReplyCountDTO> result = boardRepository.searchWithReplyCount(types, keyword, pageable);
 
     log.info(result.getTotalPages());
     log.info(result.getSize());
     log.info(result.getNumber());
     log.info(result.hasPrevious() + ":" + result.hasNext());
-    result.getContent().forEach(board->log.info(board));
+    result.getContent().forEach(board -> log.info(board));
+  }
+
+  @Test
+  public void testInsertWithImages() {
+    Board board = Board.builder()
+            .title("Image Test")
+            .content("첨부파일 테스트")
+            .writer("tester")
+            .build();
+
+    for (int i = 0; i < 3; i++) {
+      board.addImage(UUID.randomUUID().toString(), "file" + i + ".jpg");
+    }
+    boardRepository.save(board);
+  }
+
+  @Test
+  public void testReadWithImages() {
+    //반드시 존재하는 bno로 확인, PK를 이용해 게시글 SELECT 실행
+    Optional<Board> result = boardRepository.findByIdWithImages(1L); //id(pk)가 1인거 찾아주는거
+    //데이터가 없는 경우 에러발생
+    Board board = result.orElseThrow();
+    //데이터 확인 로그
+    log.info(board);
+    log.info("----------------------");
+    for (BoardImage boardImage : board.getImageSet()) {
+      log.info(boardImage);
+    }
+  }
+
+  @Transactional
+  @Commit
+  @Test
+  public void testModifyImages(){
+    Optional<Board> result = boardRepository.findByIdWithImages(1L);
+
+    Board board = result.orElseThrow();
+    //기존의 첨부파일들은 삭제
+    board.clearImages();
+    //새로운 첨부파일들
+    for(int i = 0; i<3; i++){
+      board.addImage(UUID.randomUUID().toString(), "updatefile" + i + ".jpg");
+    }
+    boardRepository.save(board);
+  }
+
+  @Test
+  @Transactional
+  @Commit
+  public void testRemoveAll() {
+    Long bno = 2L;
+    replyRepository.deleteByBoard_Bno(bno);
+    boardRepository.deleteById(bno);
   }
 }
-
-
 
 
 
