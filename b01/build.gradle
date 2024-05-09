@@ -1,3 +1,4 @@
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.2.5'
@@ -61,6 +62,9 @@ dependencies {
     // 참고 블로그 : 스웨거 설정 및 사용법
     //https://wonsjung.tistory.com/584
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
+
+    //썸네일 관련 라이브러리
+    implementation 'net.coobird:thumbnailator:0.4.16'
 
 
 }
