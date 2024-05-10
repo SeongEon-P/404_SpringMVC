@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.zerock.b01.dto.BoardDTO;
-import org.zerock.b01.dto.BoardListReplyCountDTO;
-import org.zerock.b01.dto.PageRequestDTO;
-import org.zerock.b01.dto.PageResponseDTO;
+import org.zerock.b01.dto.*;
 import org.zerock.b01.service.BoardService;
 
 @Controller
@@ -28,8 +25,10 @@ public class BoardController {
   private final BoardService boardService;
   @GetMapping("/list")
   public void list(PageRequestDTO pageRequestDTO, Model model) {
-    // 타입 변경 : BoardListReplyCountDTO, 메서드 명 변경.
-    PageResponseDTO<BoardListReplyCountDTO> responseDTO = boardService.listWithReplyCount(pageRequestDTO);
+    // 타입 변경 : BoardListReplyCountDTO, 메서드 명 변경. : 댓글 개수를 저장하는 DTO
+//    PageResponseDTO<BoardListReplyCountDTO> responseDTO = boardService.listWithReplyCount(pageRequestDTO);
+    //타입 변경 BoardListAllDTO : 댓글 개수, 이미지도 파일의 데이터도 함께 저장하는 DTO
+    PageResponseDTO<BoardListAllDTO> responseDTO = boardService.listWithAll(pageRequestDTO);
 //    log.info(responseDTO);
     model.addAttribute("responseDTO", responseDTO);
   }
@@ -41,11 +40,14 @@ public class BoardController {
                             , BindingResult bindingResult
                             , RedirectAttributes redirectAttributes) {
     log.info("board Post register.......");
+
     if(bindingResult.hasErrors()) {
+
       log.info("has errors.......");
       redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors());
       return "redirect:/board/register";
     }
+
     log.info(boardDTO);
     Long bno = boardService.register(boardDTO);
     redirectAttributes.addFlashAttribute("result",bno);

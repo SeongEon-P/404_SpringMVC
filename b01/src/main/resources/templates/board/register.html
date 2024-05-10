@@ -139,26 +139,37 @@
             </div>`
         uploadResult.innerHTML+=str
     }
+
     function removeFile(uuid,fileName,obj){
         console.log(uuid)
         console.log(fileName)
         console.log(obj)
         const targetDiv = obj.closest(".card")
-        removeFileToServer(uuid,fileName).then(data=>targetDiv.remove())
+        removeFileToServer(uuid,fileName).then(data=>{targetDiv.remove()})
     }
+
     document.querySelector(".submitBtn").addEventListener("click",function(e){
         e.preventDefault()
         e.stopPropagation()
+        //input hidden 데이터를 추가하기 위한 공간 변수 설정
         const target = document.querySelector(".uploadHidden")
+        //화면에 있는 모든 <img>태그를 가지고오는 코드
         const uploadFiles = uploadResult.querySelectorAll("img")
+        //innerHTML에 넣을 문자열 변수 선언
         let str = ''
+        //이미지 태그 개수만큼 반복하는 반복문
         for(let i=0; i<uploadFiles.length; i++){
+            //이미지 태그를 하나하나 담아주는 변수
             const uploadFile = uploadFiles[i]
-            const imgLink = uploadFile.getAttribute("src")
+            //<img> 태그 안에 생성한 속성 data-src에 들어있는 파일이름을 취득
+            const imgLink = uploadFile.getAttribute("data-src")
+             //input hidden 생성
             str += `<input type='hidden' name='fileNames' value=${imgLink}>`
         }
-        target.innerHTML = str
-        //document.querySelector("form").submit()
+        // uploadHidden의 안에 input hidden 설정
+        target.innerHTML = str;
+        //submit 실행
+        document.querySelector("form").submit();
     },false)
 </script>
 </html>
