@@ -17,21 +17,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 public class ReplyDTO {
-
   private Long rno;
-
   @NotNull
   private Long bno;
-
   @NotEmpty
   private String replyText;
-
   @NotEmpty
   private String replyer;
-
-  @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+  @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
   private LocalDateTime regDate;
-
   @JsonIgnore
   private LocalDateTime modDate;
 }

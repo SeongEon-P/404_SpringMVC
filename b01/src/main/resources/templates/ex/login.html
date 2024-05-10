@@ -39,14 +39,15 @@ $(document).ready(function(){
 	<div id="container">
 		
 		<!-- bodytext_area -->
-		<form action="" method="POST">
+		<form action="/member/login" method="POST">
 			<div class="bodytext_area box_inner">
 				<!-- login-wrap -->
 				<div class="login_wrap">
-					<h1 class="loginTit"><a href="index.html"><img src="/img/tit_login.png" alt="TOURIST IN TOUR" /></a></h1>
+					<h1 class="loginTit"><a href="/ex/index"><img src="/img/tit_login.png" alt="TOURIST IN TOUR" /></a></h1>
 					<ul class="login_list">
-						<li><input type="text" name="id" size="32"></li>
-						<li><input type="password" name="pw" size="32"></li>
+						<li th:if="${error!=null}">[[${error}]]</li>
+						<li><input type="text" name="member_id" size="32"></li>
+						<li><input type="password" name="member_pw" size="32"></li>
 						<li><button type="submit" class="btn_srch">로그인</button></li>
 						<input type="hidden" id="autologin" value="off">
 						<!-- <li class="kakao"><a href="javascript:;"><strong>카카오톡</strong> 로그인</a></li>

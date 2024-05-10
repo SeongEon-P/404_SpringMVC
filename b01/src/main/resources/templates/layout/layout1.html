@@ -7,10 +7,6 @@
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" th:href="@{/css/common.css}">
-
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
-
     <script src="/js/jquery-1.11.3.min.js"></script>
     <script src="/js/common.js"></script>
     <script src="/js/jquery.smooth-scroll.min.js"></script>
@@ -18,6 +14,7 @@
     <script src="/js/html5shiv.js"></script>
     <script src="/js/placeholders.min.js"></script>
     <![endif]-->
+    <th:block layout:fragment="head"></th:block>
 </head>
 
 <body>
@@ -34,8 +31,9 @@
             <!-- header_cont -->
             <div class="header_cont">
                 <ul class="util clear">
-                    <li><a href="/ex/login">로그인</a></li>
-                    <li><a href="/ex/join">회원가입</a></li>
+                    <li th:if="${session.loginInfo == null}"><a href="/member/login">로그인</a></li>
+                    <li th:if="${session.loginInfo != null}"><a href="/member/logout">로그아웃</a></li>
+                    <li><a href="/member/join">회원가입</a></li>
                 </ul>
                 <nav>
                     <ul class="gnb clear">
@@ -59,7 +57,7 @@
                         <li><a href="javascript:;" class="openAll3">상품투어</a>
                             <div class="gnb_depth gnb_depth2_3">
                                 <ul class="submenu_list">
-                                    <li><a href="/ex/program">프로그램 소개</a></li>
+                                    <li><a href="/program/list">프로그램 소개</a></li>
                                     <li><a href="javascript:;">여행자료</a></li>
                                 </ul>
                             </div>
@@ -116,10 +114,14 @@
         <p class="to_top"><a href="#layout0" class="s_point">TOP</a></p>
     </div>
     <th:block layout:fragment="script">
-
+    <script>
+        var a = [[${loginInfo}]]
+        console.log(a);
+        var b = [[${info}]]
+        console.log(b);
+    </script>
     </th:block>
-    <!-- Bootstrap core JS-->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+
     <!-- Core theme JS-->
     <script th:src="@{/js/scripts.js}"></script>
 </body>

@@ -31,7 +31,6 @@ public class ReplyController {
   // 서버에 도착하면 JSON -> ReplyDTO 타입으로 자동으로 변환,
   // Jackson 라이브러리가, 컨버터 역할. 기본 탑재,
   // 요청시, ReplyDTO 의 타입으로, application/json 마임 타입으로 전달 해야함.
-  // Json으로 가져올때, post된거 가져올 때 @RequestBody 써야한다고 함
   public Map<String, Long> register(@Valid @RequestBody ReplyDTO replyDTO, BindingResult bindingResult) throws BindException {
 
     log.info(replyDTO);

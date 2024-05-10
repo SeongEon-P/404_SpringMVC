@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
-      layout:decorate="~{/layout/basic.html}">
+        layout:decorate="~{/layout/basic.html}">
 <head>
     <title>Board Read</title>
 </head>
@@ -56,23 +56,20 @@
             <div class="my-4">
                 <button class="btn btn-info addReplyBtn">ADD REPLY</button>
             </div>
-            <ul class="list-group replyList">
-            </ul>
+            <ul class="list-group replyList"></ul>
         </div>
     </div>
     <div class="row mt-3">
         <div class="col">
-            <ul class="pagination replyPaging">
-            </ul>
+            <ul class="pagination replyPaging"></ul>
         </div>
     </div>
-
     <div class="modal registerModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Register Reply</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="input-group mb-3">
@@ -83,10 +80,10 @@
                         <span class="input-group-text">Replyer</span>
                         <input type="text" class="form-control replyer">
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info registerBtn">Register</button>
-                    <button type="button" class="btn btn-outline-dark closeRegisterBtn">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary registerBtn">Register</button>
+                        <button type="button" class="btn btn-outline-dark closeRegisterBtn">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,11 +100,11 @@
                         <span class="input-group-text">Reply Text</span>
                         <input type="text" class="form-control modifyText">
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-info modifyBtn">Modify</button>
-                    <button type="button" class="btn btn-danger removeBtn">Remove</button>
-                    <button type="button" class="btn btn-outline-dark closeModifyBtn">Close</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info modifyBtn">Modify</button>
+                        <button type="button" class="btn btn-danger removeBtn">Remove</button>
+                        <button type="button" class="btn btn-outline-dark closeModifyBtn">Close</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -115,48 +112,45 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="/js/reply.js"></script>
 </div>
-
 <script layout:fragment="script" th:inline="javascript">
 
 
 
-
-
-    //댓글 등록 모달
     const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"))
-
-    //registerModal, 모달창 내부의 버튼 변수 선언부
-    const registerBtn = document.querySelector(".registerBtn")
+    //모달창 내부의 버튼의 변수 선언부
     const closeRegisterBtn = document.querySelector(".closeRegisterBtn")
-
-    //모달창 내부의 인풋태그의 변수 선언
+    const registerBtn = document.querySelector(".registerBtn")
+    //모달창 내부의 인풋태그의 변수 선언부
     const replyText = document.querySelector(".replyText")
     const replyer = document.querySelector(".replyer")
 
     //댓글 목록위의 ADD REPLY 버튼 : 모달창 출력 버튼
-    document.querySelector(".addReplyBtn").addEventListener("click", function(e){
+    document.querySelector(".addReplyBtn").addEventListener("click",function(e){
         registerModal.show()
     },false)
-
     //모달창 안의 CLOSE : 모달창 끄기 버튼
-    closeRegisterBtn.addEventListener("click", function (e){
+    closeRegisterBtn.addEventListener("click",function(e){
         registerModal.hide()
     },false)
-
-    //모달창 내부의 Register 버튼:인풋태그의 데이터를 reply.js 보내어 데이터를 저장하고 댓글 목록을 갱신하는 함수
-    registerBtn.addEventListener("click",function(e) {
+    //모달창 내부의 Register버튼 : 인풋태그의 데이터를 reply.js 보내어 데이터를 저장하고 댓글 목록을 갱신하는 함수
+    registerBtn.addEventListener("click",function(e){
+        //Json타입으로 변환하기 쉽도록 key:value형식으로 데이터를 저장
         const replyObj = {
-            bno: bno,
-            replyText:replyText.value,
-            replyer:replyer.value}
-
-        addReply(replyObj).then(result => {
+            bno:bno, // 댓글번호
+            replyText:replyText.value, //내용
+            replyer:replyer.value} // 작성자
+        //reply.js의 addReply실행
+        addReply(replyObj).then(result=> {
+            //추가된 댓글번호를 메시지 창에 출력
             alert(result.rno)
+            //메시지 창에서 확인버튼을 눌렀을때 모달창을 끄기
             registerModal.hide()
+            //저장한 데이터 초기화
             replyText.value=''
             replyer.value=''
-            printReplies(1, 10, true) //댓글 목록 갱신
-        }).catch(e => {
+            //댓글 목록 갱신 goLast가 true이기 때문에 마지막 페이지로 이동
+            printReplies(1,10,true)
+        }).catch(e =>{
             alert("Exception..." + e)
         })
     },false)
@@ -171,15 +165,15 @@
         alert(errorMsg)
     }
     const bno = [[${dto.bno}]]
-    //replyList <ul>태그를 변수에 저장 : JavaScript로 <ul>태그에 <li>태그를 추가하기 위한 변수 설정
-    const replyList = document.querySelector('.replyList')//댓글 목록 DOM
+    //replyList <ul>태그를 변수에 저장:  JavaScript로 <ul>태그에 <li>태그를 추가하기 위한 변수 설정
+    const replyList = document.querySelector('.replyList')
     //replyPaging <ul>태그를 변수에 저장
-    const replyPaging = document.querySelector('.replyPaging')//페이지 목록 DOM
+    const replyPaging = document.querySelector('.replyPaging')
     printReplies(1,10)
 
     function printReplies(page,size,goLast){
-        getList({bno, page, size, goLast}).then(
-            data => {
+        getList({bno,page,size,goLast}).then(
+            data=>{
                 console.log(data)
                 //댓글 리스트를 생성하는 함수
                 printList(data.dtoList)
@@ -190,23 +184,23 @@
         })
     }
 
-    function printList(dtoList){ //댓글 목록 출력
+    function printList(dtoList){
         let str = '';
-        if(dtoList &&  dtoList.length > 0){
-            for (const dto of dtoList) {
+        if(dtoList && dtoList.length>0){
+            for (const dto of dtoList){
                 str += `<li class="list-group-item d-flex replyItem">
-                    <span class="col-2">${dto.rno}</span>
-                    <span class="col-6" data-rno="${dto.rno}">${dto.replyText}</span>
-                    <span class="col-2">${dto.replyer}</span>
-                    <span class="col-2">${dto.regDate}</span>
-            </li>`
+                        <span class="col-2">${dto.rno}</span>
+                        <span class="col-6" data-rno="${dto.rno}">${dto.replyText}</span>
+                        <span class="col-2">${dto.replyer}</span>
+                        <span class="col-2">${dto.regDate}</span>
+                        </li>`
             }
         }
         //위의 반복문에서 작성한 HTML태그들을 replyList <ul>태그에 더해주는 코드
         replyList.innerHTML = str
     }
-    function  printPages(data){//페이지 목록 출력
-        //pagination
+
+    function printPages(data){
         //innerHTML에 더해줄 HTML태그 문자열을 저장하는 변수
         let pageStr = '';
         //뒤로가기 버튼 생성 로직
@@ -214,16 +208,34 @@
             pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.start-1}">PREV</a></li>`
         }
         //숫자로된 페이지 버튼 생성 로직
-        for(let i = data.start; i <= data.end; i++){
-            pageStr +=`<li class="page-item ${i == data.page?"active":""}"><a class="page-link" data-page="${i}">
-${i}</a></li>`}
+        for(let i=data.start; i<=data.end; i++){
+            pageStr+=`<li class="page-item ${i==data.page?"active":""}"><a class="page-link" data-page="${i}">${i}</a></li>`
+        }
         //NEXT 버튼 생성 로직
         if(data.next){
-            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.end +1}">NEXT</a></li>`
+            pageStr +=`<li class="page-item"><a class="page-link" data-page="${data.end+1}">NEXT</a></li>`
         }
-
+        //위의 반복문에서 작성한 HTML태그들을 replyPaging <ul>태그에 더해주는 코드
         replyPaging.innerHTML = pageStr
     }
+    let page = 1
+    let size = 10
+
+    replyPaging.addEventListener("click",function(e){
+        e.preventDefault()
+        e.stopPropagation()
+        //선택한 A태그를 취득하는 코드
+        const target = e.target
+        //A태그인지 아닌지 확인하고 A태그가 아니면 아무것도 실행하지 않음
+        if(!target || target.tagName != 'A'){
+            return
+        }
+        //몇 페이지인지 취득
+        const pageNum = target.getAttribute("data-page")
+        page = pageNum
+        //페이지 이동
+        printReplies(page,size)
+    },false)
 
     //modifyModal
     const modifyModal = new bootstrap.Modal(document.querySelector(".modifyModal"))
@@ -233,52 +245,48 @@ ${i}</a></li>`}
     const removeBtn = document.querySelector(".removeBtn")
     const closeModifyBtn = document.querySelector(".closeModifyBtn")
 
+    removeBtn.addEventListener("click",function(){
+        removeReply(replyHeader.innerHTML).then(result=>{
+            //메시지 출력
+            alert(result.rno+' 댓글이 삭제되었습니다.')
+            // 모달창 초기화
+            replyText.value = ''
+            // 모달창 종료
+            modifyModal.hide()
+            // page = 1
+            //댓글 목록 갱신
+            printReplies(page,size)
+        }).catch(e=>{
+            console.log(e)
+        })
+    },false)
     //댓글 수정 버튼 이벤트
-    modifyBtn.addEventListener("click", function(e){
+    modifyBtn.addEventListener("click",function(){
         //서버에 보낼 데이터를 설정
         const replyObj = {
-            bno:bno,//게시글 번호
+            bno:bno, //게시글 번호
             rno:replyHeader.innerHTML, //댓글 번호
             replyText:modifyText.value //댓글 내용
         }
-        modifyReply(replyObj).then(result => {
+        modifyReply(replyObj).then(result=>{
             alert(result.rno+' 댓글이 수정되었습니다.')
             replyText.value = ''
             modifyModal.hide()
-            printReplies(page, size)
-        }).catch(e => {
-            console.log(e)
-        })
-    },false)
-
-    closeModifyBtn.addEventListener("click", function(e){
-        modifyModal.hide()
-    }, false)
-
-    removeBtn.addEventListener("click", function(e){
-           removeReply(replyHeader.innerHTML).then(result => {
-            //메시지 출력
-            alert(result.rno+' 댓글이 삭제되었습니다.')
-            //모달창 초기화
-            replyText.value = ''
-            //모달창 종료
-            modifyModal.hide()
-
-            // page = 1 //이 부분이 있으면 댓글삭제 후 1페이지로 감
-            //댓글 목록 갱신
             printReplies(page,size)
-        }).catch(e => {
+        }).catch(e=>{
             console.log(e)
         })
     },false)
 
+    closeModifyBtn.addEventListener("click",function(){
+        modifyModal.hide()
+    },false)
 
-    replyList.addEventListener("click", function (e){
+
+    replyList.addEventListener("click", function(e){
         e.preventDefault()
         e.stopPropagation()
-
         const target = e.target
-
         if(!target || target.tagName != 'SPAN'){
             return
         }
@@ -291,26 +299,21 @@ ${i}</a></li>`}
             replyHeader.innerHTML = reply.rno
             modifyText.value = reply.replyText
             modifyModal.show()
-        }).catch(e => alert('error' + e))
+        }).catch(e=> alert('error' + e))
     },false)
-    let page = 1
-    let size = 10
-
-    replyPaging.addEventListener("click", function (e){
-        e.preventDefault()
-        e.stopPropagation()
-
-        const target = e.target
-
-        if(!target || target.tagName != 'A'){
-            return
-        }
-        const pageNum = target.getAttribute("data-page")
-        page = pageNum
-        printReplies(page, size)
-
-    }, false)
-
-
 </script>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
