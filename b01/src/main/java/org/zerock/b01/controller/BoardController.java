@@ -44,6 +44,7 @@ public class BoardController {
     if(bindingResult.hasErrors()) {
 
       log.info("has errors.......");
+      System.out.println(bindingResult.getAllErrors());
       redirectAttributes.addFlashAttribute("errors",bindingResult.getAllErrors());
       return "redirect:/board/register";
     }
