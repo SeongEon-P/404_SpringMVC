@@ -82,8 +82,8 @@
 
 <script layout:fragment="script" th:inline="javascript">
     //업로드 모달
-    const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
-    const uploadResult = document.querySelector(".uploadResult")
+
+
 
     const errors = [[${errors}]]
     console.log(errors)
@@ -94,7 +94,7 @@
         }
         alert(errorMsg)
     }
-
+    const uploadModal = new bootstrap.Modal(document.querySelector(".uploadModal"))
     //업로드 모달창 보여주기 버튼 설정
     document.querySelector(".uploadFileBtn").addEventListener("click", function (e) {
         e.stopPropagation()
@@ -125,6 +125,7 @@
         })
     },false)
 
+    const uploadResult = document.querySelector(".uploadResult")
     function showUploadFile({uuid,fileName,link}){
         const str = `
             <div class="card col-4">
