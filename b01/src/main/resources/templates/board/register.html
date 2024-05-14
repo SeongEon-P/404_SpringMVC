@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
       xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{/layout/basic.html}">
 <head>
@@ -24,7 +25,8 @@
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Writer</span>
-                            <input type="text" name="writer" class="form-control" placeholder="Writer">
+                            <input type="text" name="writer" class="form-control" placeholder="Writer"
+                                    th:value="${#authentication.principal.username}" readonly>
                         </div>
                         <div class="input-group mb-3">
                             <span class="input-group-text">Images</span>
@@ -83,7 +85,7 @@
 <script layout:fragment="script" th:inline="javascript">
     //업로드 모달
 
-
+    const auth = [[${#authentication}]]
 
     const errors = [[${errors}]]
     console.log(errors)
