@@ -48,7 +48,7 @@ public class BoardController {
   @PreAuthorize("hasRole('USER')")
   @GetMapping("/register")
   public void registerGET(){}
-
+//커밋 테스트
   @PostMapping("/register")
   public String registerPOST(@Valid BoardDTO boardDTO
                             , BindingResult bindingResult
