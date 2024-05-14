@@ -77,11 +77,12 @@ public class BoardController {
     model.addAttribute("dto",boardDTO);
   }
 
+  @PreAuthorize("principal.username == #boardDTO.writer")
   @PostMapping("/modify")
-  public String modify( PageRequestDTO pageRequestDTO,
-                        @Valid BoardDTO boardDTO
-                        , BindingResult bindingResult
-                        , RedirectAttributes redirectAttributes) {
+  public String modify( @Valid BoardDTO boardDTO,
+                        BindingResult bindingResult,
+                        PageRequestDTO pageRequestDTO,
+                        RedirectAttributes redirectAttributes) {
     log.info("board Modify register.......");
     if(bindingResult.hasErrors()) {
       log.info("has errors.......");

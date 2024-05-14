@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         log.info("loadUserByUsername: " + username);
-
+        //반환할 UserDetails 생성하기
         UserDetails userDetails = User.builder()
                 .username(username)
 //                .password("1111")
