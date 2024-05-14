@@ -83,9 +83,9 @@
                         <span class="input-group-text">Reply Text</span>
                         <input type="text" class="form-control replyText">
                     </div>
-                    <div class="input-group mb-3">
+                    <div class="input-group mb-3" th:with="user=${#authentication.principal}">
                         <span class="input-group-text">Replyer</span>
-                        <input type="text" class="form-control replyer">
+                        <input type="text" class="form-control replyer" th:value="${user.username}" readonly>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary registerBtn">Register</button>
@@ -121,7 +121,7 @@
 </div>
 <script layout:fragment="script" th:inline="javascript">
 
-
+    const currentUser = [[${#authentication.principal.username}]]
 
     const registerModal = new bootstrap.Modal(document.querySelector(".registerModal"))
     //모달창 내부의 버튼의 변수 선언부
@@ -154,7 +154,7 @@
             registerModal.hide()
             //저장한 데이터 초기화
             replyText.value=''
-            replyer.value=''
+            // replyer.value=''
             //댓글 목록 갱신 goLast가 true이기 때문에 마지막 페이지로 이동
             printReplies(1,10,true)
         }).catch(e =>{
@@ -252,7 +252,16 @@
     const removeBtn = document.querySelector(".removeBtn")
     const closeModifyBtn = document.querySelector(".closeModifyBtn")
 
+    let hasAuth = false // 댓글의 작성자와 currentUser의 일치 여부
+
     removeBtn.addEventListener("click",function(){
+
+        if(!hasAuth){
+            alert("댓글 작성자만 삭제가 가능합니다.")
+            modifyModal.hide()
+            return
+        }
+
         removeReply(replyHeader.innerHTML).then(result=>{
             //메시지 출력
             alert(result.rno+' 댓글이 삭제되었습니다.')
@@ -269,6 +278,13 @@
     },false)
     //댓글 수정 버튼 이벤트
     modifyBtn.addEventListener("click",function(){
+
+        if(!hasAuth){
+            alert("댓글 작성자만 수정이 가능합니다.")
+            modifyModal.hide()
+            return
+        }
+
         //서버에 보낼 데이터를 설정
         const replyObj = {
             bno:bno, //게시글 번호
@@ -306,6 +322,9 @@
             replyHeader.innerHTML = reply.rno
             modifyText.value = reply.replyText
             modifyModal.show()
+
+            hasAuth = currentUser === reply.replyer //댓글의 작성자와 현재 사용자 일치 여부 확인
+
         }).catch(e=> alert('error' + e))
     },false)
 </script>
