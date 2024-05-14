@@ -68,6 +68,8 @@ public class BoardController {
     redirectAttributes.addFlashAttribute("result",bno);
     return "redirect:/board/list";
   }
+
+  @PreAuthorize("isAuthenticated()")
   @GetMapping({"/read","/modify"})
   public void read(Long bno, PageRequestDTO pageRequestDTO,Model model) {
     BoardDTO boardDTO = boardService.readOne(bno);
