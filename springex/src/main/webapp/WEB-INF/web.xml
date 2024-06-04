@@ -39,5 +39,10 @@
         <filter-name>encoding</filter-name>
         <servlet-name>appServlet</servlet-name>
     </filter-mapping>
-
+<!--    <multipart-config>-->
+<!--        <location>C:\\files</location>-->
+<!--        <max-file-size>20971520</max-file-size> &lt;!&ndash; 최대크기 20M &ndash;&gt;-->
+<!--        <max-request-size>41943040</max-request-size> &lt;!&ndash; 한번에 올릴 최대 크기 40M &ndash;&gt;-->
+<!--        <file-size-threshold>20971520</file-size-threshold> &lt;!&ndash; 메모리 &ndash;&gt;-->
+<!--    </multipart-config>-->
 </web-app>

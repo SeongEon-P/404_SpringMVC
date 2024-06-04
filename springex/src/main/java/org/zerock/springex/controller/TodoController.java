@@ -1,5 +1,6 @@
 package org.zerock.springex.controller;
 
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -69,7 +70,7 @@ public class TodoController {
     model.addAttribute("dto",todoService.getOne(tno));
   }
 
-  //  기존에 URL 파라미터를 사용하는 메서드 방식은 get 방식이었고,
+//  기존에 URL 파라미터를 사용하는 메서드 방식은 get 방식이었고,
 //  post는 폼에 히든으로 숨겨서 전달합니다.
   @PostMapping("/remove")
   public String remove(Long tno, RedirectAttributes redirectAttributes, PageRequestDTO pageRequestDTO) {
@@ -83,31 +84,33 @@ public class TodoController {
     return "redirect:/todo/list"+pageRequestDTO.getLink();
   }
 
-  @PostMapping("/modify")
-  public String modify(@Valid TodoDTO dto,
-                       BindingResult bindingResult,
-                       RedirectAttributes redirectAttributes,
-                       PageRequestDTO pageRequestDTO) {
-    if(bindingResult.hasErrors()){
-      log.info("has errors.......");
-      redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+    @PostMapping("/modify")
+    public String modify(@Valid TodoDTO dto,
+                         BindingResult bindingResult,
+                         RedirectAttributes redirectAttributes,
+                         PageRequestDTO pageRequestDTO) {
+      if(bindingResult.hasErrors()){
+        log.info("has errors.......");
+        redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
+        redirectAttributes.addAttribute("tno",dto.getTno());
+        return "redirect:/todo/modify";
+      }
+      todoService.modify(dto);
+      // 페이지, 사이즈 정보를 화면에 전달하기.
       redirectAttributes.addAttribute("tno",dto.getTno());
-      return "redirect:/todo/modify";
+      return "redirect:/todo/read";
     }
-    todoService.modify(dto);
-    // 페이지, 사이즈 정보를 화면에 전달하기.
-    redirectAttributes.addAttribute("tno",dto.getTno());
-    return "redirect:/todo/read";
-  }
 
-  //  @RequestMapping(value = "/register", method= RequestMethod.GET)
+//  @RequestMapping(value = "/register", method= RequestMethod.GET)
   @GetMapping("/register")
-  public void register(){ log.info("todo register.......");}
+  public void register(){
+    log.info("todo register.......");
+  }
   //@RequestMapping(value = "/register", method= RequestMethod.POST)
 
   @PostMapping("/register")
-//  MultipartFile은 파일에 대한거 가지고 올 수 있도록 하는거. dto처럼
-  public String registerPost(MultipartFile file, @Valid TodoDTO todoDTO,
+  public String registerPost(MultipartFile file,
+                          @Valid TodoDTO todoDTO,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes) throws IOException {
     log.info("POST todo register.......");
@@ -117,10 +120,9 @@ public class TodoController {
     log.info(file.getSize());
     //파일의 확장자
     log.info(file.getContentType());
-
-    //파일 저장하는 매서드 : new File("파일을 저장할 경로//파일이름.확장자")
-    file.transferTo(new File("C://files//" + file.getOriginalFilename()));
-
+    //파일을 저장하는 메서드 : new File("파일을 저장할 경로//파일이름.확장자")
+    file.transferTo(new File("c://files//" + file.getOriginalFilename()));
+    
     if(bindingResult.hasErrors()){
       log.info("has errors.......");
       redirectAttributes.addFlashAttribute("errors", bindingResult.getAllErrors());
@@ -130,4 +132,24 @@ public class TodoController {
     todoService.register(todoDTO);
     return "redirect:/todo/list";
   }
+  @GetMapping("/file")
+  public void getFile(){
+
+  }
+  @PostMapping("/file")
+  public String addFile(MultipartFile file) throws IOException {
+    file.transferTo(new File("c://files//" + file.getOriginalFilename()));
+    return "redirect:/todo/file";
+  }
 }
+
+
+
+
+
+
+
+
+
+
+

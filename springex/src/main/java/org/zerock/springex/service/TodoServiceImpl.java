@@ -32,8 +32,8 @@ public class TodoServiceImpl implements TodoService{
   @Override
   public List<TodoDTO> getAll() {
     List<TodoDTO> dtoList = todoMapper.selectAll().stream()
-            .map(vo -> modelMapper.map(vo, TodoDTO.class))
-            .collect(Collectors.toList());
+        .map(vo -> modelMapper.map(vo, TodoDTO.class))
+        .collect(Collectors.toList());
     return dtoList;
   }
 
@@ -68,8 +68,8 @@ public class TodoServiceImpl implements TodoService{
     // collect : 모아주는데, 어떻게 모아 주냐,
     // Collectors.toList() : List 타입으로 변환 시켜주기.
     // 결론, 리스트의 VO 타입을 , DTO 타입으로 다 변환 해주기.
-    List<TodoDTO>dtoList = voList.stream().map(vo -> modelMapper.map(vo, TodoDTO.class))
-            .collect(Collectors.toList());
+     List<TodoDTO>dtoList = voList.stream().map(vo -> modelMapper.map(vo, TodoDTO.class))
+        .collect(Collectors.toList());
 
     // 재료2
     // 전체 갯수를 알아야 페이징을 할수 있다.
@@ -79,10 +79,10 @@ public class TodoServiceImpl implements TodoService{
     // 화면에 전달할 최종 준비물들.
     // 실제로 , 서버에서 계산한 많은 재료를 담아 놓은 인스턴스.
     PageResponseDTO<TodoDTO> pageResponseDTO = PageResponseDTO.<TodoDTO>withAll()
-            .dtoList(dtoList)
-            .total(total)
-            .pageRequestDTO(pageRequestDTO)
-            .build();
+        .dtoList(dtoList)
+        .total(total)
+        .pageRequestDTO(pageRequestDTO)
+        .build();
 
     return pageResponseDTO;
   }

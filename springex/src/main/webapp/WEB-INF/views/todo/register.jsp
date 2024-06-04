@@ -47,7 +47,6 @@
                         Featured
                     </div>
                     <div class="card-body">
-<%--                        enctype="multipart/form-data" 이게 인코딩 타입. 여러 타입 다 되게 하는거--%>
                         <form action="/todo/register" method="post" enctype="multipart/form-data">
                             <div class="input-group mb-3">
                                 <span class="input-group-text">Title</span>
@@ -63,9 +62,9 @@
                             </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text">Image</span>
-<%--                                controller에서 'file'이라고 해서 여기서도 name에 똑같이 해야함--%>
                                 <input type="file" name="file" class="form-control" placeholder="Writer">
                             </div>
+
                             <div class="my-4">
                                 <div class="float-end">
                                     <button type="submit" class="btn btn-primary">Submit</button>

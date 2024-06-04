@@ -49,38 +49,36 @@
 
             </div>
         </div>
-
         <div class="row content">
             <div class="col">
                 <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Search</h5>
-                    <form action="/todo/list" method="get">
-                        <input type="hidden" name="size" value="${pageRequestDTO.size}">
-                        <div class="mb-3">
-                            <input type="checkbox" name="finished" ${pageRequestDTO.finished?"checked":""}>완료여부
-                        </div>
-                        <div class="mb-3">
-                            <input type="checkbox" name="types" value="t" ${pageRequestDTO.checkType("t")?"checked":""}>제목
-                            <input type="checkbox" name="types" value="w" ${pageRequestDTO.checkType("w")?"checked":""}>작성자
-                            <input type="text" name="keyword" class="form-control" value='<c:out value="${pageRequestDTO.keyword}"/>'>
-                        </div>
-                        <div class="input-group mb-3 dueDateDiv">
-                            <input type="date" name="from" class="form-control" value="${pageRequestDTO.from}">
-                            <input type="date" name="to" class="form-control" value="${pageRequestDTO.to}">
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="float-end">
-                                <button class="btn btn-primary" type="submit">Search</button>
-                                <button class="btn btn-info clearBtn" type="reset">Clear</button>
+                    <div class="card-body">
+                        <h5 class="card-title">Search</h5>
+                        <form action="/todo/list" method="get">
+                            <input type="hidden" name="size" value="${pageRequestDTO.size}">
+                            <div class="mb-3">
+                                <input type="checkbox" name="finished" ${pageRequestDTO.finished?"checked":""}>완료여부
                             </div>
-                        </div>
-                    </form>
-                </div>
+                            <div class="mb-3">
+                                <input type="checkbox" name="types" value="t" ${pageRequestDTO.checkType("t")?"checked":""}>제목
+                                <input type="checkbox" name="types" value="w" ${pageRequestDTO.checkType("w")?"checked":""}>작성자
+                                <input type="text" name="keyword" class="form-control" value="${pageRequestDTO.keyword}">
+                            </div>
+                            <div class="input-group mb-3 dueDateDiv">
+                                <input type="date" name="from" class="form-control" value="${pageRequestDTO.from}">
+                                <input type="date" name="to" class="form-control" value="${pageRequestDTO.to}">
+                            </div>
+                            <div class="input-group mb-3">
+                                <div class="float-end">
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                    <button class="btn btn-info clearBtn" type="reset">Clear</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-
         <div class="row content">
             <%--        <h1>Content</h1>--%>
             <div class="col">
@@ -106,6 +104,7 @@
                             <c:forEach items="${responseDTO.dtoList}" var="dto">
                                 <tr>
                                     <th scope="row"><c:out value="${dto.tno}"/></th>
+<%--                                        ${pageRequestDTO.link} = page=1&size=10--%>
                                     <td><a href="/todo/read?tno=${dto.tno}&${pageRequestDTO.link}" class="text-decoration-none"><c:out
                                             value="${dto.title}"/></a></td>
                                     <td><c:out value="${dto.writer}"/></td>
@@ -127,10 +126,9 @@
                                             <a class="page-link" data-num="${responseDTO.start - 1}">이전</a>
                                         </li>
                                     </c:if>
-                                    <%--                                        현재 페이지--%>
+<%--                                        현재 페이지--%>
                                     <c:forEach begin="${responseDTO.start}" end="${responseDTO.end}" var="num">
-                                        <li class="page-item ${responseDTO.page == num ? "active" :""}
-"><a class="page-link" data-num="${num}">${num}</a></li>
+                                        <li class="page-item ${responseDTO.page == num ? "active" :""}"><a class="page-link" data-num="${num}">${num}</a></li>
                                     </c:forEach>
 
                                     <%--                            다음 버튼 표시 --%>
@@ -141,44 +139,43 @@
                                     </c:if>
                                 </ul>
                                 <script>
-                                    // 클래스 명 : pagination 이용해서, 요소를 선택하고
+                                    // 클래스 명 : pagination 이용해서, 요소를 선택 하고
                                     // 이벤트 핸들러를 추가함.
                                     document.querySelector(".pagination").addEventListener("click",
-                                        function (e) { // e : event ,
-                                            // 기본적인 기능을 방지 하는 함수.
-                                            e.preventDefault()
-                                            e.stopPropagation()
+                                    function (e) { // e : event ,
+                                        // 기본적인 기능을 방지 하는 함수.
+                                        e.preventDefault()
+                                        e.stopPropagation()
 
-                                            const target = e.target
+                                        const target = e.target
+                                        console.log(target)
+                                        // tagName 이름이 A 가 아니라면 함수를 나가고
+                                        if(target.tagName !== 'A') {
+                                            return
+                                        }
+                                        // tagName 이름이 A 이면 함수를 계속 수행한다.
 
-                                            // tagName 이름이 A 가 아니라면 함수를 나가고
-                                            if(target.tagName !== 'A') {
-                                                return
-                                            }
-                                            // tagName 이름이 A 이면 함수를 계속 수행한다
-                                            // 현재 페이지의 번호를 가지고 오기
+                                        // 현재 페이지의 번호를 가지고 오기.
+                                        //
+                                        const num = target.getAttribute("data-num")
 
-                                            const num = target.getAttribute("data-num")
+                                        // 해댕 페이지로 이동하기.
+                                        // 스프링의 벡엔드 서버에 호출하면, 서버가 응답해서,
+                                        // 해당 페이지로 리다이렉트 함. page 값과, size 을가지고
+                                        // 정확히 하면 PageRequestDTO에 담아서 호출하고,
+                                        // 서버는 PageResponseDTO에 담아서 화면에 보내고,
+                                        // 화면은 해당 인스턴스 이용해서, 화면에 출력하는 형식.
+                                        // self.location = `/todo/list?page=\${num}`
+                                        const formObj = document.querySelector("form")
+                                        formObj.innerHTML += `<input type='hidden' name='page' value='\${num}'>`
+                                        formObj.submit()
+                                    },false)
 
-                                            // 해당 페이지로 이동하기.
-                                            // 스프링의 벡엔드 서버에 호출하면, 서버가 응답해서
-                                            // 해당 페이지로 리다이렉트 함. page 값과, size를 가지고
-                                            // 정확히 하면 PageRequestDTO에 담아서 호출하고,
-                                            // 서버는 PageResponseDTO에 담아서 화면에 보내고
-                                            // 화면은 해당 인스턴스 이용해서, 화면에 출력하는 형식
-                                            // self.location = `/todo/list?page=\${num}`
-                                            const formObj = document.querySelector("form")
-                                            formObj.innerHTML += `<input type='hidden' name='page' value='\${num}'>`
-                                            formObj.submit();
-                                        },false)
-
-                                    document.querySelector(".clearBtn").addEventListener("click",
-                                        function (e) {
-                                            e.preventDefault()
-                                            e.stopPropagation()
-
-                                            self.location = `/todo/list`
-                                        },false)
+                                    document.querySelector(".clearBtn").addEventListener("click", function(e){
+                                        e.preventDefault()
+                                        e.stopPropagation()
+                                        self.location = '/todo/list'
+                                    },false)
                                 </script>
 
 
