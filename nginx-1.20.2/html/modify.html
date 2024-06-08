@@ -30,46 +30,50 @@
 
             </div>
         </div>
-        
+        <div class="row">
+            <div class="col">
+                <h3 class="my-3">게시판</h3>
+            </div>
+        </div>
         <div class="row content">
             <!-- <%--        <h1>Content</h1>--%> -->
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        Featured
+                        글 수정하기
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-3">
-                            <span class="input-group-text">TNO</span>
+                            <span class="input-group-text">글번호</span>
                             <input type="text" name="tno" id="tno" class="form-control" readonly>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Title</span>
+                            <span class="input-group-text">제목</span>
                             <input type="text" name="title" class="form-control"
                                    value=''>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">DueDate</span>
+                            <span class="input-group-text">작성일</span>
                             <input type="date" name="dueDate"  class="form-control"
                                    value=''>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Writer</span>
+                            <span class="input-group-text">작성자</span>
                             <input type="text" name="writer" class="form-control"
                                    value='' readonly>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                Complete &nbsp;
+                                완료 &nbsp;
                             </label>
                             <input class="form-check-input"
                                     type="checkbox" name="complete" >
                         </div>
                         <div class="my-4">
                             <div class="float-end">
-                                <button type="button" class="btn btn-danger">Remove</button>
-                                <button type="button" class="btn btn-primary">Modify</button>
-                                <button type="button" class="btn btn-secondary">List</button>
+                                <button type="button" class="btn btn-danger">삭제</button>
+                                <button type="button" class="btn btn-primary">수정</button>
+                                <button type="button" class="btn btn-secondary">목록</button>
                             </div>
                         </div>
                     </div>

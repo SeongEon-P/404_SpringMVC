@@ -2,5 +2,10 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/appEC2" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/appRDS" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/appS3" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/springex" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/startgram" vcs="Git" />
   </component>
 </project>

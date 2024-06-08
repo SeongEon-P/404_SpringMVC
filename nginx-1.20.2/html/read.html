@@ -13,17 +13,16 @@
             <div class="col">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <div class="container-fluid">
-                        <a class="navbar-brand" href="#">Navbar</a>
-                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <a class="navbar-brand" href="#" onclick="navigateTo('list.html')">Home</a>
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup"
+                                aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
                         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                             <div class="navbar-nav">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                                <a class="nav-link" href="#">Link</a>
-                                <a class="nav-link" href="#">Features</a>
-                                <a class="nav-link" href="#">Pricing</a>
-                                <a class="nav-link" disabled>Disabled</a>
+                                <a class="nav-link" href="#" id="loginLink" onclick="navigateTo('apiLogin.html')">로그인</a>
+                                <a class="nav-link" href="#" id="joinLink" onclick="navigateTo('join.html')">회원가입</a>
                             </div>
                         </div>
                     </div>
@@ -31,38 +30,42 @@
 
             </div>
         </div>
-        
+        <div class="row">
+            <div class="col">
+                <h3 class="my-3">게시판</h3>
+            </div>
+        </div>
         <div class="row content">
             <!-- <%--        <h1>Content</h1>--%> -->
             <div class="col">
                 <div class="card">
                     <div class="card-header">
-                        Featured
+                        글 상세보기
                     </div>
                     <div class="card-body">
                         <div class="input-group mb-3">
-                            <span class="input-group-text">TNO</span>
+                            <span class="input-group-text">글번호</span>
                             <input type="text" name="tno" id="tno" class="form-control"
-                                   >
+                                   value='' readonly>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Title</span>
+                            <span class="input-group-text">제목</span>
                             <input type="text" name="title" class="form-control"
                                    value='' readonly>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">DueDate</span>
+                            <span class="input-group-text">작성일</span>
                             <input type="date" name="dueDate"  class="form-control"
                                    value='' readonly>
                         </div>
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Writer</span>
+                            <span class="input-group-text">작성자</span>
                             <input type="text" name="writer" class="form-control"
                                    value='' readonly>
                         </div>
                         <div class="form-check">
                             <label class="form-check-label">
-                                Finished &nbsp;
+                                완료 &nbsp;
                             </label>
                             <input class="form-check-input"
                                     type="checkbox" name="finished" disabled>
@@ -70,8 +73,8 @@
                         <div class="my-4">
                             <div class="float-end">
                                 <button class="btn btn-primary btn1">확인</button>
-                                <button type="button" class="btn btn-primary modifyBtn">Modify</button>
-                                <button type="button" class="btn btn-secondary">List</button>
+                                <button type="button" class="btn btn-primary modifyBtn">수정</button>
+                                <button type="button" class="btn btn-secondary">목록</button>
                             </div>
                         </div>
                     </div>
@@ -107,6 +110,39 @@ document.querySelector(".btn1").addEventListener("click",(e) =>{
     let url = "http://localhost:8080/api/todo/"+tno
     pageStart(url)
 },false)
+
+let pageRequestDTO = null;
+    let formObj = document.searchForm;
+    window.addEventListener("load",function(){
+        updateNavbar();  // 네비게이션 바 업데이트
+        pageStart("http://localhost:8080/api/todo/list");
+
+        document.querySelector(".pagination").addEventListener("click",
+        function (e) { 
+            e.preventDefault();
+            e.stopPropagation();
+
+            const target = e.target;
+            if(target.tagName !== 'A') {
+                return;
+            }
+
+            const num = target.getAttribute("data-num");
+            formObj.page.value = num;
+            let url = "http://localhost:8080/api/todo/list"+getLink(formObj);
+            pageStart(url);
+        },false);
+
+        document.querySelector(".searchBtn").addEventListener("click",function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            let url = "http://localhost:8080/api/todo/list"+getLink(formObj);
+            console.log(url);
+            pageStart(url);
+        },false);
+    });
+
+
 function pageStart(url){
     console.log(url)
     callServer(url).then(result=>{
