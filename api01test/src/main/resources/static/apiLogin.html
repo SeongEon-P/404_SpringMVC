@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<button class="btn1">GenerateToken</button>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+    document.querySelector(".btn1").addEventListener("click",()=>{
+
+        const data = {
+            username: user.mid.value,
+            password: user.mpw.value
+        }
+
+        axios.post("http://localhost:8080/generateToken", data).then(res=>{
+            const accessToken = res.data.accessToken
+            const refreshToken = res.data.refreshToken
+            localStorage.setItem("accessToken",accessToken)
+            localStorage.setItem("refreshToken", refreshToken)
+            alert("로그인 성공");
+            // 로그인 성공 후 리다이렉트
+            window.location.href = "/list.html"; // 성공 페이지 경로 설정
+        }).catch(err => {
+            alert("로그인에 실패했습니다.");
+        });
+    },false)
+
+</script>
+</body>
+</html>
